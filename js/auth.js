@@ -50,14 +50,19 @@ const Auth = (() => {
 
     if (!loginBtn || !userPanel) return;
 
+    // Mobile topbar avatar
+    const mobileAvatar = document.getElementById('authAvatarMobile');
+
     if (user) {
       loginBtn.style.display = 'none';
       userPanel.style.display = 'flex';
       if (avatar) avatar.src = user.photoURL || '';
       if (name) name.textContent = user.displayName || user.email || 'Usuario';
+      if (mobileAvatar) { mobileAvatar.src = user.photoURL || ''; mobileAvatar.style.display = 'block'; }
     } else {
       loginBtn.style.display = '';
       userPanel.style.display = 'none';
+      if (mobileAvatar) mobileAvatar.style.display = 'none';
     }
   }
 

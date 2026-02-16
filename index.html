@@ -10,46 +10,92 @@
 </head>
 <body>
 
-<header class="site-header">
-  <h1>TTRPG Tools <span>Herramientas de Mesa</span></h1>
-  <nav class="site-nav" id="siteNav">
-    <button class="nav-btn active" onclick="showHome()">Inicio</button>
-    <button class="nav-btn" onclick="showSection('dice')">Dados</button>
-    <button class="nav-btn" onclick="showSection('oracle')">Oraculo</button>
-    <button class="nav-btn" onclick="showSection('tables')">Tablas</button>
-    <button class="nav-btn" onclick="showSection('initiative')">Iniciativa</button>
-    <button class="nav-btn" onclick="showSection('encounter')">Encuentros</button>
-    <button class="nav-btn" onclick="showSection('npc')">NPCs</button>
-    <button class="nav-btn" onclick="showSection('reference')">Referencia</button>
-    <button class="nav-btn" onclick="showSection('journal')">Diario</button>
-    <button class="nav-btn" onclick="showSection('loot')">Tesoro</button>
-    <button class="nav-btn" onclick="showSection('spells')">Hechizos</button>
-    <button class="nav-btn" onclick="showSection('dungeon')">Mazmorras</button>
-    <button class="nav-btn cof-nav" onclick="showSection('cof')">CoF</button>
+<!-- Sidebar Navigation -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo" onclick="showHome()">
+    <span class="sidebar-logo-icon">&#x2694;&#xFE0F;</span>
+    <span class="sidebar-logo-text">TTRPG Tools</span>
+  </div>
+  <nav class="sidebar-nav" id="siteNav">
+    <button class="sidebar-link active" onclick="showHome()" data-section="home">
+      <span class="sl-icon">&#x1F3E0;</span><span class="sl-label">Inicio</span>
+    </button>
+    <div class="sidebar-divider"></div>
+    <span class="sidebar-group-label">Herramientas</span>
+    <button class="sidebar-link" onclick="showSection('dice')" data-section="dice">
+      <span class="sl-icon">&#x1F3B2;</span><span class="sl-label">Dados</span>
+    </button>
+    <button class="sidebar-link" onclick="showSection('oracle')" data-section="oracle">
+      <span class="sl-icon">&#x1F52E;</span><span class="sl-label">Oraculo</span>
+    </button>
+    <button class="sidebar-link" onclick="showSection('tables')" data-section="tables">
+      <span class="sl-icon">&#x1F4DC;</span><span class="sl-label">Tablas</span>
+    </button>
+    <button class="sidebar-link" onclick="showSection('initiative')" data-section="initiative">
+      <span class="sl-icon">&#x2694;&#xFE0F;</span><span class="sl-label">Iniciativa</span>
+    </button>
+    <button class="sidebar-link" onclick="showSection('encounter')" data-section="encounter">
+      <span class="sl-icon">&#x1F409;</span><span class="sl-label">Encuentros</span>
+    </button>
+    <button class="sidebar-link" onclick="showSection('npc')" data-section="npc">
+      <span class="sl-icon">&#x1F464;</span><span class="sl-label">NPCs</span>
+    </button>
+    <button class="sidebar-link" onclick="showSection('reference')" data-section="reference">
+      <span class="sl-icon">&#x1F4D6;</span><span class="sl-label">Referencia</span>
+    </button>
+    <button class="sidebar-link" onclick="showSection('journal')" data-section="journal">
+      <span class="sl-icon">&#x1F4D3;</span><span class="sl-label">Diario</span>
+    </button>
+    <button class="sidebar-link" onclick="showSection('loot')" data-section="loot">
+      <span class="sl-icon">&#x1F4B0;</span><span class="sl-label">Tesoro</span>
+    </button>
+    <button class="sidebar-link" onclick="showSection('spells')" data-section="spells">
+      <span class="sl-icon">&#x2728;</span><span class="sl-label">Hechizos</span>
+    </button>
+    <button class="sidebar-link" onclick="showSection('dungeon')" data-section="dungeon">
+      <span class="sl-icon">&#x1F3F0;</span><span class="sl-label">Mazmorras</span>
+    </button>
+    <div class="sidebar-divider"></div>
+    <button class="sidebar-link cof-link" onclick="showSection('cof')" data-section="cof">
+      <span class="sl-icon">&#x1F9B4;</span><span class="sl-label">Choir of Flesh</span>
+    </button>
   </nav>
-  <div class="ux-controls">
-    <label class="ux-toggle" title="Auto-log al diario"><input type="checkbox" id="autoLogToggle" onchange="Journal.setAutoLog(this.checked)" checked>Auto-log</label>
-    <button class="ux-btn" id="muteBtn" onclick="toggleMute()" title="Silenciar sonidos">&#x1F50A;</button>
-  </div>
-  <div class="auth-panel">
-    <button class="auth-btn" id="authLoginBtn" onclick="Auth.login()" title="Iniciar sesion con Google">&#x1F512; Login</button>
-    <div class="auth-user" id="authUserPanel" style="display:none">
-      <img class="auth-avatar" id="authAvatar" alt="" referrerpolicy="no-referrer">
-      <span class="auth-name" id="authName"></span>
-      <span class="sync-indicator idle" id="syncIndicator" title="Estado de sync">&#x1F504;</span>
-      <button class="auth-btn auth-sync" onclick="Sync.syncNow()" title="Sincronizar ahora">&#x2601;&#xFE0F; Sync</button>
-      <button class="auth-btn auth-logout" onclick="Auth.logout()" title="Cerrar sesion">&#x1F6AA;</button>
+  <div class="sidebar-footer">
+    <div class="sidebar-settings">
+      <label class="sidebar-toggle" title="Auto-log al diario"><input type="checkbox" id="autoLogToggle" onchange="Journal.setAutoLog(this.checked)" checked><span class="sl-icon">&#x1F4DD;</span><span class="sl-label">Auto-log</span></label>
+      <button class="sidebar-setting-btn" id="muteBtn" onclick="toggleMute()" title="Silenciar sonidos"><span class="sl-icon">&#x1F50A;</span><span class="sl-label">Sonido</span></button>
+      <button class="sidebar-setting-btn" id="compactBtn" onclick="toggleCompact()" title="Modo Compacto"><span class="sl-icon">&#x25A3;</span><span class="sl-label">Compacto</span></button>
+    </div>
+    <div class="sidebar-theme">
+      <span class="sidebar-group-label">Tema</span>
+      <div class="theme-swatches">
+        <button class="theme-dot" onclick="setTheme('')" style="background:#e94560" title="Rojo Oscuro"></button>
+        <button class="theme-dot" onclick="setTheme('blue')" style="background:#4a9eff" title="Azul Noche"></button>
+        <button class="theme-dot" onclick="setTheme('green')" style="background:#4ade80" title="Verde Bosque"></button>
+        <button class="theme-dot" onclick="setTheme('parchment')" style="background:#f4e8c1" title="Pergamino"></button>
+      </div>
+    </div>
+    <div class="sidebar-auth">
+      <button class="auth-btn" id="authLoginBtn" onclick="Auth.login()" title="Iniciar sesion con Google">&#x1F512; <span class="sl-label">Login</span></button>
+      <div class="auth-user" id="authUserPanel" style="display:none">
+        <img class="auth-avatar" id="authAvatar" alt="" referrerpolicy="no-referrer">
+        <span class="auth-name sl-label" id="authName"></span>
+        <span class="sync-indicator idle" id="syncIndicator" title="Estado de sync">&#x1F504;</span>
+        <button class="auth-mini-btn" onclick="Sync.syncNow()" title="Sincronizar">&#x2601;&#xFE0F;</button>
+        <button class="auth-mini-btn" onclick="Auth.logout()" title="Cerrar sesion">&#x1F6AA;</button>
+      </div>
     </div>
   </div>
-  <button class="compact-toggle" id="compactBtn" onclick="toggleCompact()" title="Modo Compacto">&#x25A3;</button>
-  <div class="theme-picker">
-    <button class="theme-btn" onclick="toggleThemeMenu()">&#x1F3A8;</button>
-    <div class="theme-menu" id="themeMenu">
-      <div class="theme-opt" onclick="setTheme('')"><span class="theme-swatch" style="background:#e94560"></span> Rojo Oscuro</div>
-      <div class="theme-opt" onclick="setTheme('blue')"><span class="theme-swatch" style="background:#4a9eff"></span> Azul Noche</div>
-      <div class="theme-opt" onclick="setTheme('green')"><span class="theme-swatch" style="background:#4ade80"></span> Verde Bosque</div>
-      <div class="theme-opt" onclick="setTheme('parchment')"><span class="theme-swatch" style="background:#f4e8c1;border-color:#c4a86a"></span> Pergamino</div>
-    </div>
+</aside>
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
+<!-- Mobile Top Bar -->
+<header class="topbar" id="topbar">
+  <button class="topbar-hamburger" onclick="toggleSidebar()" title="Menu">&#x2630;</button>
+  <span class="topbar-title">TTRPG Tools</span>
+  <div class="topbar-auth">
+    <span class="sync-indicator idle" id="syncIndicatorMobile" title="Estado de sync">&#x1F504;</span>
+    <img class="auth-avatar-sm" id="authAvatarMobile" alt="" referrerpolicy="no-referrer" style="display:none">
   </div>
 </header>
 
@@ -82,23 +128,23 @@
       <span class="tc-icon">&#x1F464;</span>
       <div class="tc-info"><h3>Generador de NPCs</h3><p>Nombre, stats, personalidad, apariencia, vinculo y motivacion</p></div>
     </div>
-    <div class="tool-card tc-red" onclick="showSection('reference')" style="border-color:rgba(251,146,60,0.3);background:linear-gradient(135deg,rgba(251,146,60,0.08),var(--bg3))">
+    <div class="tool-card tc-gold" onclick="showSection('reference')">
       <span class="tc-icon">&#x1F4D6;</span>
       <div class="tc-info"><h3>Referencia Rapida</h3><p>Acciones, condiciones, coberturas, descansos y reglas D&D 5.5</p></div>
     </div>
-    <div class="tool-card tc-red" onclick="showSection('journal')" style="border-color:rgba(251,146,60,0.3);background:linear-gradient(135deg,rgba(201,162,39,0.08),var(--bg3))">
+    <div class="tool-card tc-gold" onclick="showSection('journal')">
       <span class="tc-icon">&#x1F4D3;</span>
       <div class="tc-info"><h3>Diario de Sesion</h3><p>Log de sesion solo RPG con tracker de hilos y NPCs</p></div>
     </div>
-    <div class="tool-card tc-gold" onclick="showSection('loot')" style="border-color:rgba(234,179,8,0.3);background:linear-gradient(135deg,rgba(234,179,8,0.08),var(--bg3))">
+    <div class="tool-card tc-gold" onclick="showSection('loot')">
       <span class="tc-icon">&#x1F4B0;</span>
       <div class="tc-info"><h3>Generador de Loot</h3><p>Tesoro individual, hoard, items magicos por tier de CR</p></div>
     </div>
-    <div class="tool-card tc-purple" onclick="showSection('spells')" style="border-color:rgba(168,85,247,0.3);background:linear-gradient(135deg,rgba(168,85,247,0.08),var(--bg3))">
+    <div class="tool-card tc-purple" onclick="showSection('spells')">
       <span class="tc-icon">&#x2728;</span>
       <div class="tc-info"><h3>Spell Tracker</h3><p>Slots por nivel, concentracion, hechizos preparados D&D 5.5</p></div>
     </div>
-    <div class="tool-card tc-green" onclick="showSection('dungeon')" style="border-color:rgba(34,197,94,0.3);background:linear-gradient(135deg,rgba(34,197,94,0.08),var(--bg3))">
+    <div class="tool-card tc-green" onclick="showSection('dungeon')">
       <span class="tc-icon">&#x1F3F0;</span>
       <div class="tc-info"><h3>Generador de Dungeons</h3><p>Mazmorras procedurales con trampas, monstruos y tesoro</p></div>
     </div>
@@ -847,10 +893,11 @@
 
 <!-- Mobile Bottom Bar -->
 <div class="mobile-bar" id="mobileBar">
-  <button onclick="Dice.roll('1d20')">&#x1F3B2; d20</button>
-  <button onclick="showSection('oracle')">&#x1F52E;</button>
-  <button onclick="showSection('journal')">&#x1F4D3;</button>
-  <button onclick="showHome()">&#x1F3E0;</button>
+  <button onclick="showHome()" title="Inicio"><span>&#x1F3E0;</span><small>Inicio</small></button>
+  <button onclick="Dice.roll('1d20')" title="d20"><span>&#x1F3B2;</span><small>d20</small></button>
+  <button onclick="showSection('oracle')" title="Oraculo"><span>&#x1F52E;</span><small>Oraculo</small></button>
+  <button onclick="showSection('journal')" title="Diario"><span>&#x1F4D3;</span><small>Diario</small></button>
+  <button onclick="toggleSidebar()" title="Menu"><span>&#x2630;</span><small>Menu</small></button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -918,11 +965,29 @@ function lazyInit(name) {
 }
 
 function updateNav(active) {
-  document.querySelectorAll('.site-nav .nav-btn').forEach(btn => {
-    const isHome = btn.textContent === 'Inicio';
-    const target = btn.getAttribute('onclick')?.match(/showSection\('(\w+)'\)/)?.[1];
-    btn.classList.toggle('active', active ? target === active : isHome);
+  document.querySelectorAll('.sidebar-link').forEach(btn => {
+    const section = btn.dataset.section;
+    btn.classList.toggle('active', active ? section === active : section === 'home');
   });
+  // Update topbar title
+  const topTitle = document.getElementById('topbar')?.querySelector('.topbar-title');
+  if (topTitle) {
+    const names = {dice:'Dados',oracle:'Oraculo',tables:'Tablas',initiative:'Iniciativa',encounter:'Encuentros',npc:'NPCs',reference:'Referencia',journal:'Diario',loot:'Tesoro',spells:'Hechizos',dungeon:'Mazmorras',cof:'Choir of Flesh'};
+    topTitle.textContent = active ? (names[active] || 'TTRPG Tools') : 'TTRPG Tools';
+  }
+  // Close sidebar on mobile after navigation
+  closeSidebar();
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebarOverlay').classList.toggle('open');
+  document.body.classList.toggle('sidebar-open');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+  document.body.classList.remove('sidebar-open');
 }
 
 // === COMPACT MODE ===
@@ -941,26 +1006,16 @@ function toggleCompact() {
 }
 
 // === THEMES ===
-function toggleThemeMenu() {
-  document.getElementById('themeMenu').classList.toggle('open');
-}
-
 function setTheme(name) {
   if (name) document.documentElement.setAttribute('data-theme', name);
   else document.documentElement.removeAttribute('data-theme');
   localStorage.setItem('ttrpg_theme', name);
-  document.getElementById('themeMenu').classList.remove('open');
-  // Update active state
-  document.querySelectorAll('.theme-opt').forEach(opt => {
-    const val = opt.getAttribute('onclick').match(/setTheme\('(.*)'\)/)?.[1] || '';
-    opt.classList.toggle('active', val === name);
+  // Update active dot
+  document.querySelectorAll('.theme-dot').forEach(dot => {
+    const val = dot.getAttribute('onclick').match(/setTheme\('(.*)'\)/)?.[1] || '';
+    dot.classList.toggle('active', val === name);
   });
 }
-
-// Close theme menu on outside click
-document.addEventListener('click', e => {
-  if (!e.target.closest('.theme-picker')) document.getElementById('themeMenu').classList.remove('open');
-});
 
 // Load saved theme
 const savedTheme = localStorage.getItem('ttrpg_theme');
@@ -1042,7 +1097,7 @@ document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
   const idx = parseInt(e.key);
   if (idx >= 1 && idx <= sections.length) showSection(sections[idx-1]);
-  if (e.key === 'Escape' || e.key === '0') showHome();
+  if (e.key === 'Escape' || e.key === '0') { showHome(); closeSidebar(); }
   if (e.key === 'c' || e.key === 'C') toggleCompact();
 });
 </script>

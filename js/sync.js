@@ -199,14 +199,16 @@ const Sync = (() => {
   // UI status indicator
   function setSyncStatus(status) {
     syncing = status === 'syncing';
-    const el = document.getElementById('syncIndicator');
-    if (!el) return;
-    el.className = 'sync-indicator ' + status;
-    if (status === 'done') {
-      setTimeout(() => {
-        if (!syncing) el.className = 'sync-indicator idle';
-      }, 2000);
-    }
+    ['syncIndicator', 'syncIndicatorMobile'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.className = 'sync-indicator ' + status;
+      if (status === 'done') {
+        setTimeout(() => {
+          if (!syncing) el.className = 'sync-indicator idle';
+        }, 2000);
+      }
+    });
   }
 
   return { pushAll, pullAll, merge, enableAutoSync, syncNow };
