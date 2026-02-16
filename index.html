@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TTRPG Tools — Herramientas de Mesa</title>
 <link rel="stylesheet" href="css/style.css">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e94560">
 </head>
 <body>
 
@@ -18,7 +20,19 @@
     <button class="nav-btn" onclick="showSection('initiative')">Iniciativa</button>
     <button class="nav-btn" onclick="showSection('encounter')">Encuentros</button>
     <button class="nav-btn" onclick="showSection('npc')">NPCs</button>
+    <button class="nav-btn" onclick="showSection('reference')">Ref</button>
+    <button class="nav-btn" onclick="showSection('journal')">Diario</button>
   </nav>
+  <button class="compact-toggle" id="compactBtn" onclick="toggleCompact()" title="Modo Compacto">&#x25A3;</button>
+  <div class="theme-picker">
+    <button class="theme-btn" onclick="toggleThemeMenu()">&#x1F3A8;</button>
+    <div class="theme-menu" id="themeMenu">
+      <div class="theme-opt" onclick="setTheme('')"><span class="theme-swatch" style="background:#e94560"></span> Rojo Oscuro</div>
+      <div class="theme-opt" onclick="setTheme('blue')"><span class="theme-swatch" style="background:#4a9eff"></span> Azul Noche</div>
+      <div class="theme-opt" onclick="setTheme('green')"><span class="theme-swatch" style="background:#4ade80"></span> Verde Bosque</div>
+      <div class="theme-opt" onclick="setTheme('parchment')"><span class="theme-swatch" style="background:#f4e8c1;border-color:#c4a86a"></span> Pergamino</div>
+    </div>
+  </div>
 </header>
 
 <main>
@@ -50,6 +64,61 @@
       <span class="tc-icon">&#x1F464;</span>
       <div class="tc-info"><h3>Generador de NPCs</h3><p>Nombre, stats, personalidad, apariencia, vinculo y motivacion</p></div>
     </div>
+    <div class="tool-card tc-red" onclick="showSection('reference')" style="border-color:rgba(251,146,60,0.3);background:linear-gradient(135deg,rgba(251,146,60,0.08),var(--bg3))">
+      <span class="tc-icon">&#x1F4D6;</span>
+      <div class="tc-info"><h3>Referencia Rapida</h3><p>Acciones, condiciones, coberturas, descansos y reglas D&D 5.5</p></div>
+    </div>
+    <div class="tool-card tc-red" onclick="showSection('journal')" style="border-color:rgba(251,146,60,0.3);background:linear-gradient(135deg,rgba(201,162,39,0.08),var(--bg3))">
+      <span class="tc-icon">&#x1F4D3;</span>
+      <div class="tc-info"><h3>Diario de Sesion</h3><p>Log de sesion solo RPG con tracker de hilos y NPCs</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== COMPACT MODE ====== -->
+<div id="compact-view">
+  <div class="compact-panel" id="cp-dice">
+    <h3>&#x1F3B2; Dados</h3>
+    <div class="dice-quick">
+      <button class="dice-btn" onclick="Dice.roll('1d4')">d4</button>
+      <button class="dice-btn" onclick="Dice.roll('1d6')">d6</button>
+      <button class="dice-btn" onclick="Dice.roll('1d8')">d8</button>
+      <button class="dice-btn" onclick="Dice.roll('1d10')">d10</button>
+      <button class="dice-btn" onclick="Dice.roll('1d12')">d12</button>
+      <button class="dice-btn d20" onclick="Dice.roll('1d20')">d20</button>
+      <button class="dice-btn" onclick="Dice.roll('1d100')">d100</button>
+    </div>
+    <div class="dice-adv">
+      <button onclick="Dice.rollAdv(true)">Ventaja</button>
+      <button onclick="Dice.rollAdv(false)">Desventaja</button>
+    </div>
+    <div class="dice-result" id="cpDiceRes">
+      <div class="dice-val" id="cpDiceVal">--</div>
+      <div class="dice-formula" id="cpDiceForm"></div>
+    </div>
+  </div>
+  <div class="compact-panel" id="cp-oracle">
+    <h3>&#x1F52E; Oraculo</h3>
+    <div class="oracle-likelihood" id="cpOracleLikelihood"></div>
+    <button class="btn btn-primary btn-small" onclick="Oracle.ask()" style="width:100%;margin-bottom:8px">Preguntar</button>
+    <div class="oracle-result" id="cpOracleResult">
+      <div class="oracle-answer" id="cpOracleAnswer">?</div>
+      <div class="oracle-event" id="cpOracleEvent" style="display:none"></div>
+    </div>
+  </div>
+  <div class="compact-panel" id="cp-init">
+    <h3>&#x2694;&#xFE0F; Iniciativa</h3>
+    <div class="input-row">
+      <input type="text" id="cpInitName" placeholder="Nombre" style="flex:1" onkeypress="if(event.key==='Enter'){document.getElementById('initName').value=this.value;Initiative.add();this.value=''}">
+      <input type="number" id="cpInitBonus" placeholder="+0" style="width:50px">
+      <button class="btn btn-primary btn-small" onclick="document.getElementById('initName').value=document.getElementById('cpInitName').value;document.getElementById('initBonus').value=document.getElementById('cpInitBonus').value;Initiative.add();document.getElementById('cpInitName').value=''">+</button>
+    </div>
+    <button class="btn btn-primary btn-small" onclick="Initiative.nextTurn()" style="margin-bottom:6px">&#x25B6; Siguiente</button>
+    <div class="init-list" id="cpInitList"></div>
+  </div>
+  <div class="compact-panel" id="cp-ref">
+    <h3>&#x1F4D6; Referencia</h3>
+    <div id="cpRefContent"></div>
   </div>
 </div>
 
@@ -219,7 +288,7 @@
   </div>
   <div class="panel enc-selected">
     <div class="panel-head"><h3>Monstruos Seleccionados</h3></div>
-    <div id="selectedMonsters"><div style="color:var(--text3);font-size:0.85em;text-align:center;padding:10px">Click en un monstruo para añadirlo</div></div>
+    <div id="selectedMonsters"><div style="color:var(--text3);font-size:0.85em;text-align:center;padding:10px">Click en un monstruo para a&ntilde;adirlo</div></div>
   </div>
   <div class="panel">
     <div class="panel-head"><h3>Monstruos SRD</h3></div>
@@ -257,11 +326,74 @@
   <div class="npc-card" id="npcCard" style="display:none"></div>
 </div>
 
+<!-- ====== REFERENCE ====== -->
+<div class="tool-section" id="sec-reference">
+  <div class="section-head">
+    <span class="sh-icon">&#x1F4D6;</span>
+    <h2>Referencia Rapida D&amp;D 5.5</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="panel">
+    <div class="input-row">
+      <input type="text" id="refSearch" placeholder="Buscar regla, condicion, accion..." style="flex:1" oninput="Reference.search()">
+      <button class="btn btn-small btn-secondary" onclick="Reference.expandAll()">Abrir todo</button>
+      <button class="btn btn-small btn-secondary" onclick="Reference.collapseAll()">Cerrar todo</button>
+    </div>
+  </div>
+  <div id="refContent"></div>
+</div>
+
+<!-- ====== JOURNAL ====== -->
+<div class="tool-section" id="sec-journal">
+  <div class="section-head">
+    <span class="sh-icon">&#x1F4D3;</span>
+    <h2>Diario de Sesion</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="journal-layout">
+    <div class="journal-main">
+      <div class="panel">
+        <div class="panel-head">
+          <h3>Sesiones</h3>
+          <button class="btn btn-small btn-primary" onclick="Journal.newSession()">+ Nueva Sesion</button>
+        </div>
+        <div id="sessionList"></div>
+      </div>
+      <div class="panel" id="journalEntryPanel" style="display:none">
+        <div class="panel-head"><h3>Entradas</h3></div>
+        <div class="entry-timeline" id="entryTimeline"></div>
+        <div class="input-row">
+          <select id="entryType" style="width:120px">
+            <option value="narrativa">&#x1F4D6; Narrativa</option>
+            <option value="oraculo">&#x1F52E; Oraculo</option>
+            <option value="tirada">&#x1F3B2; Tirada</option>
+            <option value="combate">&#x2694;&#xFE0F; Combate</option>
+            <option value="nota">&#x1F4DD; Nota</option>
+          </select>
+          <textarea id="entryText" placeholder="Escribe lo que sucede..." rows="2" style="flex:1;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:inherit;resize:vertical" onkeydown="if(event.key==='Enter'&&event.ctrlKey){Journal.addEntry()}"></textarea>
+          <button class="btn btn-primary" onclick="Journal.addEntry()" style="align-self:flex-end">Agregar</button>
+        </div>
+      </div>
+    </div>
+    <div class="journal-sidebar">
+      <div class="thread-panel">
+        <h4>&#x1F534; Hilos <button class="btn btn-small btn-secondary" onclick="Journal.addThread()">+</button></h4>
+        <div id="threadList"></div>
+      </div>
+      <div class="thread-panel">
+        <h4>&#x1F464; NPCs <button class="btn btn-small btn-secondary" onclick="Journal.addNPC()">+</button></h4>
+        <div id="npcList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </main>
 
 <footer class="site-footer">
   TTRPG Tools &mdash; Herramientas para D&D 5.5 (2024) y Solo RPG &mdash;
   <a href="https://github.com/AkkarinRothen/ttrpg-tools" target="_blank">GitHub</a>
+  <button class="pwa-install" id="pwaInstall" onclick="installPWA()">&#x1F4F2; Instalar App</button>
 </footer>
 
 <script src="js/dice.js"></script>
@@ -270,12 +402,16 @@
 <script src="js/initiative.js"></script>
 <script src="js/encounter.js"></script>
 <script src="js/npc.js"></script>
+<script src="js/reference.js"></script>
+<script src="js/journal.js"></script>
 <script>
 // === NAVIGATION ===
-const sections = ['dice','oracle','tables','initiative','encounter','npc'];
+const sections = ['dice','oracle','tables','initiative','encounter','npc','reference','journal'];
 let initialized = {};
+let isCompact = false;
 
 function showHome() {
+  if (isCompact) { toggleCompact(); return; }
   document.getElementById('home').style.display = 'block';
   sections.forEach(s => document.getElementById('sec-'+s).classList.remove('active'));
   updateNav(null);
@@ -283,6 +419,7 @@ function showHome() {
 }
 
 function showSection(name) {
+  if (isCompact) toggleCompact();
   document.getElementById('home').style.display = 'none';
   sections.forEach(s => {
     const el = document.getElementById('sec-'+s);
@@ -290,17 +427,21 @@ function showSection(name) {
     else el.classList.remove('active');
   });
   updateNav(name);
-  // Lazy init
-  if (!initialized[name]) {
-    initialized[name] = true;
-    if (name === 'dice') Dice.init();
-    if (name === 'oracle') Oracle.init();
-    if (name === 'tables') Tables.init();
-    if (name === 'initiative') Initiative.init();
-    if (name === 'encounter') Encounter.init();
-    if (name === 'npc') NPC.init();
-  }
+  lazyInit(name);
   history.replaceState(null, '', '#' + name);
+}
+
+function lazyInit(name) {
+  if (initialized[name]) return;
+  initialized[name] = true;
+  if (name === 'dice') Dice.init();
+  if (name === 'oracle') Oracle.init();
+  if (name === 'tables') Tables.init();
+  if (name === 'initiative') Initiative.init();
+  if (name === 'encounter') Encounter.init();
+  if (name === 'npc') NPC.init();
+  if (name === 'reference') Reference.init();
+  if (name === 'journal') Journal.init();
 }
 
 function updateNav(active) {
@@ -311,18 +452,78 @@ function updateNav(active) {
   });
 }
 
+// === COMPACT MODE ===
+function toggleCompact() {
+  isCompact = !isCompact;
+  document.body.classList.toggle('compact-mode', isCompact);
+  document.getElementById('compactBtn').classList.toggle('active', isCompact);
+  if (isCompact) {
+    // Init all needed modules
+    ['dice','oracle','initiative','reference'].forEach(lazyInit);
+    document.getElementById('home').style.display = 'none';
+    sections.forEach(s => document.getElementById('sec-'+s).classList.remove('active'));
+  } else {
+    showHome();
+  }
+}
+
+// === THEMES ===
+function toggleThemeMenu() {
+  document.getElementById('themeMenu').classList.toggle('open');
+}
+
+function setTheme(name) {
+  if (name) document.documentElement.setAttribute('data-theme', name);
+  else document.documentElement.removeAttribute('data-theme');
+  localStorage.setItem('ttrpg_theme', name);
+  document.getElementById('themeMenu').classList.remove('open');
+  // Update active state
+  document.querySelectorAll('.theme-opt').forEach(opt => {
+    const val = opt.getAttribute('onclick').match(/setTheme\('(.*)'\)/)?.[1] || '';
+    opt.classList.toggle('active', val === name);
+  });
+}
+
+// Close theme menu on outside click
+document.addEventListener('click', e => {
+  if (!e.target.closest('.theme-picker')) document.getElementById('themeMenu').classList.remove('open');
+});
+
+// Load saved theme
+const savedTheme = localStorage.getItem('ttrpg_theme');
+if (savedTheme) setTheme(savedTheme);
+
+// === PWA ===
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('pwaInstall').style.display = 'inline-block';
+});
+
+function installPWA() {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(() => { deferredPrompt = null; document.getElementById('pwaInstall').style.display = 'none'; });
+}
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
+}
+
 // Handle hash on load
 window.addEventListener('DOMContentLoaded', () => {
   const hash = location.hash.replace('#','');
   if (sections.includes(hash)) showSection(hash);
 });
 
-// Keyboard shortcut: press number keys 1-6 to navigate
+// Keyboard shortcuts
 document.addEventListener('keydown', e => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
   const idx = parseInt(e.key);
-  if (idx >= 1 && idx <= 6) showSection(sections[idx-1]);
+  if (idx >= 1 && idx <= sections.length) showSection(sections[idx-1]);
   if (e.key === 'Escape' || e.key === '0') showHome();
+  if (e.key === 'c' || e.key === 'C') toggleCompact();
 });
 </script>
 </body>

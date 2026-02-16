@@ -1,0 +1,109 @@
+{
+  "sections": [
+    {
+      "id": "actions",
+      "title": "Acciones en Combate",
+      "icon": "⚔",
+      "items": [
+        {"name": "Attack", "desc": "Realiza un ataque cuerpo a cuerpo o a distancia. A niveles altos, los guerreros obtienen Extra Attack."},
+        {"name": "Cast a Spell", "desc": "Lanza un hechizo con tiempo de lanzamiento de 1 accion. Algunos hechizos requieren concentracion."},
+        {"name": "Dash", "desc": "Ganas movimiento adicional igual a tu velocidad para este turno (se acumula con tu movimiento normal)."},
+        {"name": "Disengage", "desc": "Tu movimiento no provoca ataques de oportunidad por el resto del turno."},
+        {"name": "Dodge", "desc": "Hasta tu proximo turno, los ataques contra ti tienen desventaja y tus salvaciones de DEX tienen ventaja. Pierdes el beneficio si estas incapacitado o tu velocidad es 0."},
+        {"name": "Help", "desc": "Das ventaja a un aliado en su proximo chequeo de habilidad o ataque contra un objetivo a 5 pies de ti."},
+        {"name": "Hide", "desc": "Haz un chequeo de Stealth (DEX). Si tienes exito, ganas los beneficios de estar oculto (ventaja en ataques, etc)."},
+        {"name": "Ready", "desc": "Preparas una accion para ejecutarla como reaccion cuando se cumpla un trigger especifico. Hechizos preparados requieren concentracion."},
+        {"name": "Search", "desc": "Haz un chequeo de Perception (WIS) o Investigation (INT) para encontrar algo."},
+        {"name": "Use an Object", "desc": "Interactuas con un objeto que requiere tu accion (usar kit de herramientas, activar objeto magico, etc)."},
+        {"name": "Grapple", "desc": "Chequeo de Athletics vs Athletics/Acrobatics del objetivo. Si ganas, el objetivo queda agarrado (velocidad 0)."},
+        {"name": "Shove", "desc": "Chequeo de Athletics vs Athletics/Acrobatics. Si ganas, empujas 5 pies o lo tiras prone."}
+      ]
+    },
+    {
+      "id": "bonus",
+      "title": "Acciones Bonus",
+      "icon": "⚡",
+      "items": [
+        {"name": "Off-hand Attack", "desc": "Si atacas con un arma ligera, puedes usar accion bonus para atacar con otra arma ligera en la otra mano (sin mod de habilidad al daño)."},
+        {"name": "Class Features", "desc": "Muchas habilidades de clase usan accion bonus: Cunning Action (Rogue), Rage (Barbarian), Healing Word (Cleric), etc."},
+        {"name": "Two-Weapon Fighting", "desc": "Con el estilo de combate Two-Weapon Fighting, si agregas el modificador de habilidad al daño del ataque off-hand."}
+      ]
+    },
+    {
+      "id": "reactions",
+      "title": "Reacciones",
+      "icon": "🛡",
+      "items": [
+        {"name": "Opportunity Attack", "desc": "Cuando un enemigo sale de tu alcance, puedes usar tu reaccion para hacer un ataque cuerpo a cuerpo contra el."},
+        {"name": "Readied Action", "desc": "Ejecutas la accion que preparaste cuando se cumple el trigger."},
+        {"name": "Spells", "desc": "Algunos hechizos son reacciones: Shield (+5 AC), Counterspell, Absorb Elements, Feather Fall, etc."}
+      ]
+    },
+    {
+      "id": "conditions",
+      "title": "Condiciones",
+      "icon": "💀",
+      "items": [
+        {"name": "Blinded", "desc": "No puede ver. Falla automaticamente chequeos que requieran vision. Ataques contra el tienen ventaja. Sus ataques tienen desventaja."},
+        {"name": "Charmed", "desc": "No puede atacar al encantador ni dirigirle habilidades/efectos dañinos. El encantador tiene ventaja en interaccion social."},
+        {"name": "Deafened", "desc": "No puede oir. Falla automaticamente chequeos que requieran oido."},
+        {"name": "Frightened", "desc": "Desventaja en chequeos de habilidad y ataques mientras pueda ver la fuente del miedo. No puede moverse voluntariamente hacia la fuente."},
+        {"name": "Grappled", "desc": "Velocidad se reduce a 0. Termina si el agarrador esta incapacitado o un efecto lo mueve fuera de alcance."},
+        {"name": "Incapacitated", "desc": "No puede tomar acciones ni reacciones."},
+        {"name": "Invisible", "desc": "Imposible de ver sin magia o sentido especial. Cuenta como heavily obscured. Ventaja en ataques, desventaja contra el."},
+        {"name": "Paralyzed", "desc": "Incapacitado, no puede moverse ni hablar. Falla salvaciones de STR y DEX. Ataques tienen ventaja. Critico automatico a 5 pies."},
+        {"name": "Petrified", "desc": "Transformado en sustancia solida. Peso x10. Incapacitado, no puede moverse. Resistencia a todo el daño. Inmune a veneno y enfermedad."},
+        {"name": "Poisoned", "desc": "Desventaja en tiradas de ataque y chequeos de habilidad."},
+        {"name": "Prone", "desc": "Solo puede arrastrarse. Desventaja en ataques. Ataques a 5 pies tienen ventaja, a distancia tienen desventaja. Levantarse cuesta mitad del movimiento."},
+        {"name": "Restrained", "desc": "Velocidad 0. Ataques contra el tienen ventaja. Sus ataques tienen desventaja. Desventaja en salvaciones de DEX."},
+        {"name": "Stunned", "desc": "Incapacitado, no puede moverse, habla entrecortada. Falla salvaciones de STR y DEX. Ataques contra el tienen ventaja."},
+        {"name": "Unconscious", "desc": "Incapacitado, no puede moverse ni hablar, no percibe. Cae prone. Suelta objetos. Falla STR/DEX saves. Ventaja contra el. Critico a 5 pies."}
+      ]
+    },
+    {
+      "id": "cover",
+      "title": "Cobertura",
+      "icon": "🧱",
+      "items": [
+        {"name": "Half Cover (+2)", "desc": "Un obstaculo cubre al menos la mitad del cuerpo (muro bajo, mueble grande, criatura). +2 AC y +2 salvaciones de DEX."},
+        {"name": "Three-Quarters (+5)", "desc": "Tres cuartas partes cubiertas (portcullis, arrow slit, tronco grueso). +5 AC y +5 salvaciones de DEX."},
+        {"name": "Total Cover", "desc": "Completamente cubierto. No puede ser objetivo directo de ataques o hechizos (pero AOE puede afectarle)."}
+      ]
+    },
+    {
+      "id": "rests",
+      "title": "Descansos",
+      "icon": "🏕",
+      "items": [
+        {"name": "Short Rest (1 hora)", "desc": "Puede gastar Hit Dice para recuperar HP. Cada HD: tira el dado + mod CON. Algunas features se recuperan en short rest (Warlock spell slots, Action Surge, etc)."},
+        {"name": "Long Rest (8 horas)", "desc": "Recupera todos los HP y la mitad de los Hit Dice gastados (minimo 1). Recupera todos los spell slots y la mayoria de features de clase. Maximo 1 long rest por 24 horas."}
+      ]
+    },
+    {
+      "id": "dc",
+      "title": "Dificultades Tipicas (DC)",
+      "icon": "🎯",
+      "items": [
+        {"name": "DC 5 — Muy Facil", "desc": "Tareas triviales que casi cualquiera puede hacer."},
+        {"name": "DC 10 — Facil", "desc": "Tareas simples que requieren un minimo de competencia."},
+        {"name": "DC 15 — Moderada", "desc": "El estandar para tareas que requieren habilidad real."},
+        {"name": "DC 20 — Dificil", "desc": "Tareas desafiantes que requieren talento o entrenamiento."},
+        {"name": "DC 25 — Muy Dificil", "desc": "Tareas extremas que solo los mas habilidosos logran."},
+        {"name": "DC 30 — Casi Imposible", "desc": "Hazañas al limite de lo humanamente posible."}
+      ]
+    },
+    {
+      "id": "vision",
+      "title": "Iluminacion y Vision",
+      "icon": "👁",
+      "items": [
+        {"name": "Bright Light", "desc": "La mayoria de criaturas ven normalmente. Antorchas, hechizos de luz, luz del dia."},
+        {"name": "Dim Light (Lightly Obscured)", "desc": "Penumbra, crepusculo, luna llena. Desventaja en Perception (WIS) que dependa de vision."},
+        {"name": "Darkness (Heavily Obscured)", "desc": "Oscuridad total, niebla densa. Efectivamente ciego."},
+        {"name": "Darkvision", "desc": "Puede ver en oscuridad como si fuera penumbra (escala de grises) hasta el rango indicado. Penumbra como luz brillante."},
+        {"name": "Blindsight", "desc": "Percibe el entorno sin depender de vision (ecolocacion, sentidos agudos) hasta el rango."},
+        {"name": "Truesight", "desc": "Ve en oscuridad, ve lo invisible, detecta ilusiones, ve la forma real de cambiaformas, ve al Ethereal Plane."}
+      ]
+    }
+  ]
+}

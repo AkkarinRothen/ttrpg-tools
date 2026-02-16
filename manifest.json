@@ -1,0 +1,16 @@
+{
+  "name": "TTRPG Tools",
+  "short_name": "TTRPG Tools",
+  "description": "Herramientas de mesa para D&D 5.5 (2024) y Solo RPG",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0a0a12",
+  "theme_color": "#e94560",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎲</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
