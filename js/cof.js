@@ -347,9 +347,13 @@ const CoF = (() => {
       }
       if (cell.token) {
         const tClass = cell.token.type === 'player' ? 'player' : cell.token.type === 'ally' ? 'ally' : 'enemy';
-        content += `<span class="cof-token ${tClass}" title="${cell.token.name}">${cell.token.icon}</span>`;
+        if (cell.token.img) {
+          content += `<img class="cof-token-img ${tClass}" src="${cell.token.img}" alt="${cell.token.name}" title="${cell.token.name}" draggable="false">`;
+        } else {
+          content += `<span class="cof-token ${tClass}" title="${cell.token.name}">${cell.token.icon}</span>`;
+        }
       }
-      return `<div class="${cls}" data-idx="${i}" onclick="CoF.clickCell(${i})">${content}<span class="cof-coord">${String.fromCharCode(65+col)}${row+1}</span></div>`;
+      return `<div class="${cls}" data-idx="${i}" onclick="CoF.clickCell(${i})" ondragover="event.preventDefault()" ondrop="CoF.dropOnCell(event,${i})">${content}<span class="cof-coord">${String.fromCharCode(65+col)}${row+1}</span></div>`;
     }).join('');
   }
 
@@ -383,7 +387,90 @@ const CoF = (() => {
     if (!name) return;
     const emptyIdx = grid.findIndex(c => !c.token);
     if (emptyIdx === -1) { alert('Grid lleno'); return; }
-    grid[emptyIdx] = {...grid[emptyIdx], token: {name, type, icon: icons[type]}};
+    grid[emptyIdx] = {...grid[emptyIdx], token: {name, type, icon: icons[type], img: null}};
+    save();
+    renderGrid();
+    SFX.click();
+  }
+
+  function addTokenWithImage() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'image/*';
+    input.onchange = e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const name = prompt('Nombre del token:', file.name.replace(/\.[^.]+$/, ''));
+      if (!name) return;
+      const type = prompt('Tipo (player, ally, enemy):', 'enemy');
+      if (!type || !['player','ally','enemy'].includes(type)) return;
+      const emptyIdx = grid.findIndex(c => !c.token);
+      if (emptyIdx === -1) { alert('Grid lleno'); return; }
+      resizeAndStoreImage(file, dataUrl => {
+        const icons = {player: '⚔️', ally: '🛡️', enemy: '💀'};
+        grid[emptyIdx] = {...grid[emptyIdx], token: {name, type, icon: icons[type], img: dataUrl}};
+        save();
+        renderGrid();
+        SFX.click();
+      });
+    };
+    input.click();
+  }
+
+  function dropOnCell(event, idx) {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    if (!files.length) return;
+    const file = files[0];
+    if (!file.type.startsWith('image/')) return;
+    const name = prompt('Nombre del token:', file.name.replace(/\.[^.]+$/, ''));
+    if (!name) return;
+    if (grid[idx].token) {
+      // Replace existing token's image
+      resizeAndStoreImage(file, dataUrl => {
+        grid[idx].token.img = dataUrl;
+        grid[idx].token.name = name;
+        save();
+        renderGrid();
+      });
+    } else {
+      const type = prompt('Tipo (player, ally, enemy):', 'enemy');
+      if (!type || !['player','ally','enemy'].includes(type)) return;
+      resizeAndStoreImage(file, dataUrl => {
+        const icons = {player: '⚔️', ally: '🛡️', enemy: '💀'};
+        grid[idx] = {...grid[idx], token: {name, type, icon: icons[type], img: dataUrl}};
+        save();
+        renderGrid();
+      });
+    }
+  }
+
+  function resizeAndStoreImage(file, cb) {
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const size = 64; // Small for localStorage
+        canvas.width = size;
+        canvas.height = size;
+        const ctx = canvas.getContext('2d');
+        // Draw centered/cropped square
+        const min = Math.min(img.width, img.height);
+        const sx = (img.width - min) / 2;
+        const sy = (img.height - min) / 2;
+        ctx.drawImage(img, sx, sy, min, min, 0, 0, size, size);
+        cb(canvas.toDataURL('image/png', 0.8));
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function removeToken(idx) {
+    if (!grid[idx].token) return;
+    grid[idx].token = null;
+    selectedToken = null;
     save();
     renderGrid();
   }
@@ -806,7 +893,7 @@ const CoF = (() => {
     adjustHumanity, adjustAnguish, anguishCheck, adjustTrauma,
     setMinor, setMajor, postCombatCheck,
     addResource, useResource, removeResource,
-    clickCell, addToken, generateTerrain, clearGrid, rollWound,
+    clickCell, addToken, addTokenWithImage, dropOnCell, removeToken, generateTerrain, clearGrid, rollWound,
     pray, apostasy,
     travelMove, scavenge, adjustRumors, resetTravel,
     toggleRef, searchRef,

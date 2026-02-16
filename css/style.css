@@ -945,6 +945,20 @@ body.compact-mode #compact-view { display: grid !important; }
 .cof-token.ally { filter: drop-shadow(0 0 3px #4ade80); }
 .cof-token.enemy { filter: drop-shadow(0 0 3px var(--cof-accent)); }
 
+/* Token Images */
+.cof-token-img {
+  width: 85%;
+  height: 85%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  pointer-events: none;
+}
+.cof-token-img.player { border-color: var(--blue); box-shadow: 0 0 6px rgba(74,158,255,0.5); }
+.cof-token-img.ally { border-color: var(--green); box-shadow: 0 0 6px rgba(74,222,128,0.5); }
+.cof-token-img.enemy { border-color: var(--cof-accent); box-shadow: 0 0 6px rgba(196,30,58,0.5); }
+.cof-cell.dragover { background: rgba(201,162,39,0.2); outline: 2px dashed var(--gold); }
+
 .cof-grid-controls { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
 
 /* CoF Travel */

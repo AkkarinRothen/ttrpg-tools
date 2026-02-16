@@ -665,9 +665,11 @@
         <button class="btn btn-small btn-primary" onclick="CoF.addToken('player')">&#x2694;&#xFE0F; Jugador</button>
         <button class="btn btn-small btn-secondary" onclick="CoF.addToken('ally')">&#x1F6E1;&#xFE0F; Aliado</button>
         <button class="btn btn-small btn-danger" onclick="CoF.addToken('enemy')">&#x1F480; Enemigo</button>
+        <button class="btn btn-small btn-gold" onclick="CoF.addTokenWithImage()" title="Cargar token con imagen PNG">&#x1F5BC;&#xFE0F; Imagen</button>
         <button class="btn btn-small btn-gold" onclick="CoF.generateTerrain()">&#x1F5FA;&#xFE0F; Terreno</button>
         <button class="btn btn-small btn-secondary" onclick="if(confirm('Limpiar grid?'))CoF.clearGrid()">&#x1F5D1; Limpiar</button>
       </div>
+      <p style="font-size:0.72em;color:var(--text3);margin-bottom:8px">Arrastra una imagen PNG sobre una casilla para agregar token con imagen. Click en token para mover.</p>
       <div class="cof-grid" id="cof-grid"></div>
     </div>
     <div class="panel cof-panel">
