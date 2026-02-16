@@ -101,6 +101,7 @@ const Sync = (() => {
         if (!localValue && cloud.value) {
           // Cloud has data, local doesn't → pull
           localStorage.setItem(key, cloud.value);
+          meta[key] = cloudTime;
           hadCloudChanges = true;
         } else if (localValue && !cloud.value) {
           // Local has data, cloud doesn't → push
@@ -111,6 +112,7 @@ const Sync = (() => {
         } else if (cloudTime > localTime) {
           // Cloud is newer → pull
           localStorage.setItem(key, cloud.value);
+          meta[key] = cloudTime;
           hadCloudChanges = true;
         } else if (localTime > cloudTime) {
           // Local is newer → push
@@ -128,6 +130,8 @@ const Sync = (() => {
       }
     }
 
+    // Save updated meta timestamps before any reload
+    localStorage.setItem(META_KEY, JSON.stringify(meta));
     await batch.commit();
     setSyncStatus('done');
 

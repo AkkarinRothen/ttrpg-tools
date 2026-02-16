@@ -20,11 +20,17 @@ const Auth = (() => {
   function login() {
     if (!fbAuth) { alert('Firebase no configurado. Ver instrucciones en README.'); return; }
     const provider = new firebase.auth.GoogleAuthProvider();
-    fbAuth.signInWithPopup(provider).catch(err => {
-      if (err.code !== 'auth/popup-closed-by-user') {
-        alert('Error de login: ' + err.message);
-      }
-    });
+    // Mobile browsers block popups — use redirect instead
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isMobile) {
+      fbAuth.signInWithRedirect(provider);
+    } else {
+      fbAuth.signInWithPopup(provider).catch(err => {
+        if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
+          alert('Error de login: ' + err.message);
+        }
+      });
+    }
   }
 
   function logout() {
