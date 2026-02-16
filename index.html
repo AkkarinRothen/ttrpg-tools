@@ -59,6 +59,9 @@
     <button class="sidebar-link cof-link" onclick="showSection('cof')" data-section="cof">
       <span class="sl-icon">&#x1F9B4;</span><span class="sl-label">Choir of Flesh</span>
     </button>
+    <button class="sidebar-link cof-link" onclick="showSection('bestiary')" data-section="bestiary">
+      <span class="sl-icon">&#x1F47E;</span><span class="sl-label">Bestiario CoF</span>
+    </button>
   </nav>
   <div class="sidebar-footer">
     <div class="sidebar-settings">
@@ -151,6 +154,10 @@
     <div class="tool-card cof-card" onclick="showSection('cof')">
       <span class="tc-icon">&#x1F9B4;</span>
       <div class="tc-info"><h3>Choir of Flesh</h3><p>Character tracker, grid 5&#xD7;5, oraciones, viaje y referencia</p></div>
+    </div>
+    <div class="tool-card cof-card" onclick="showSection('bestiary')">
+      <span class="tc-icon">&#x1F47E;</span>
+      <div class="tc-info"><h3>Bestiario CoF</h3><p>30 criaturas con stats, habilidades y descripciones</p></div>
     </div>
   </div>
 </div>
@@ -441,6 +448,17 @@
       </div>
       <div class="panel" id="journalEntryPanel" style="display:none">
         <div class="panel-head"><h3>Entradas</h3></div>
+        <div class="journal-search-bar">
+          <input type="text" id="entrySearch" placeholder="Buscar en entradas..." style="flex:1" oninput="Journal.filterEntries(this.value)">
+          <select id="entryTypeFilter" style="width:130px" onchange="Journal.filterEntriesByType(this.value)">
+            <option value="all">Todos</option>
+            <option value="narrativa">&#x1F4D6; Narrativa</option>
+            <option value="oraculo">&#x1F52E; Oraculo</option>
+            <option value="tirada">&#x1F3B2; Tirada</option>
+            <option value="combate">&#x2694;&#xFE0F; Combate</option>
+            <option value="nota">&#x1F4DD; Nota</option>
+          </select>
+        </div>
         <div class="entry-timeline" id="entryTimeline"></div>
         <div class="input-row">
           <select id="entryType" style="width:120px">
@@ -878,6 +896,25 @@
   </div>
 </div>
 
+<!-- ====== BESTIARY ====== -->
+<div class="tool-section" id="sec-bestiary">
+  <div class="section-head cof-head">
+    <span class="sh-icon">&#x1F47E;</span>
+    <h2>Bestiario — Choir of Flesh</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="panel">
+    <div class="input-row" style="flex-wrap:wrap;gap:8px">
+      <input type="text" id="bestiarySearch" placeholder="Buscar criatura..." style="flex:1;min-width:200px" oninput="Bestiary.setSearch(this.value)">
+      <div id="bestiaryFilters" class="bestiary-filters"></div>
+    </div>
+  </div>
+  <div class="bestiary-layout">
+    <div class="bestiary-list" id="bestiaryList"></div>
+    <div class="bestiary-detail" id="bestiaryDetail"></div>
+  </div>
+</div>
+
 </main>
 
 <footer class="site-footer">
@@ -918,11 +955,12 @@
 <script src="js/spells.js"></script>
 <script src="js/dungeon.js"></script>
 <script src="js/cof.js"></script>
+<script src="js/bestiary.js"></script>
 <script src="js/sync.js"></script>
 <script src="js/auth.js"></script>
 <script>
 // === NAVIGATION ===
-const sections = ['dice','oracle','tables','initiative','encounter','npc','reference','journal','loot','spells','dungeon','cof'];
+const sections = ['dice','oracle','tables','initiative','encounter','npc','reference','journal','loot','spells','dungeon','cof','bestiary'];
 let initialized = {};
 let isCompact = false;
 
@@ -962,6 +1000,7 @@ function lazyInit(name) {
   if (name === 'spells') Spells.init();
   if (name === 'dungeon') Dungeon.init();
   if (name === 'cof') CoF.init();
+  if (name === 'bestiary') Bestiary.init();
 }
 
 function updateNav(active) {
@@ -972,7 +1011,7 @@ function updateNav(active) {
   // Update topbar title
   const topTitle = document.getElementById('topbar')?.querySelector('.topbar-title');
   if (topTitle) {
-    const names = {dice:'Dados',oracle:'Oraculo',tables:'Tablas',initiative:'Iniciativa',encounter:'Encuentros',npc:'NPCs',reference:'Referencia',journal:'Diario',loot:'Tesoro',spells:'Hechizos',dungeon:'Mazmorras',cof:'Choir of Flesh'};
+    const names = {dice:'Dados',oracle:'Oraculo',tables:'Tablas',initiative:'Iniciativa',encounter:'Encuentros',npc:'NPCs',reference:'Referencia',journal:'Diario',loot:'Tesoro',spells:'Hechizos',dungeon:'Mazmorras',cof:'Choir of Flesh',bestiary:'Bestiario CoF'};
     topTitle.textContent = active ? (names[active] || 'TTRPG Tools') : 'TTRPG Tools';
   }
   // Close sidebar on mobile after navigation

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ttrpg-tools-v8';
+const CACHE_NAME = 'ttrpg-tools-v9';
 const ASSETS = [
   './',
   './index.html',
@@ -20,6 +20,7 @@ const ASSETS = [
   './js/spells.js',
   './js/dungeon.js',
   './js/cof.js',
+  './js/bestiary.js',
   './data/oracle-tables.json',
   './data/random-tables.json',
   './data/monsters-srd.json',
