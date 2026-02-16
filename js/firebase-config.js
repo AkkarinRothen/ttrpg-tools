@@ -1,11 +1,11 @@
 /* Firebase Configuration — Replace with your project credentials */
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyCaVVvsJ51WevjE2C8xO_ON-wot2MiZQyQ",
+  authDomain: "ttrpg-helper-577e5.firebaseapp.com",
+  projectId: "ttrpg-helper-577e5",
+  storageBucket: "ttrpg-helper-577e5.firebasestorage.app",
+  messagingSenderId: "361713199208",
+  appId: "1:361713199208:web:69a10e52aff75cc1dd33dd"
 };
 
 // Initialize Firebase (only if SDK loaded)
