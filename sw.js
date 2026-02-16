@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ttrpg-tools-v5';
+const CACHE_NAME = 'ttrpg-tools-v6';
 const ASSETS = [
   './',
   './index.html',

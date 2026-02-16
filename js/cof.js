@@ -352,6 +352,10 @@ const CoF = (() => {
         } else {
           content += `<span class="cof-token ${tClass}" title="${cell.token.name}">${cell.token.icon}</span>`;
         }
+        if (cell.token.hp !== undefined && cell.token.hp !== null) {
+          const hpCls = cell.token.hp <= 0 ? 'dead' : '';
+          content += `<span class="cof-token-hp ${hpCls}">${cell.token.hp}</span>`;
+        }
       }
       return `<div class="${cls}" data-idx="${i}" onclick="CoF.clickCell(${i})" ondragover="event.preventDefault()" ondrop="CoF.dropOnCell(event,${i})">${content}<span class="cof-coord">${String.fromCharCode(65+col)}${row+1}</span></div>`;
     }).join('');
@@ -376,7 +380,14 @@ const CoF = (() => {
       selectedToken = {token: grid[idx].token, fromIdx: idx};
       document.querySelectorAll('.cof-cell').forEach(c => c.classList.remove('selected'));
       document.querySelector(`.cof-cell[data-idx="${idx}"]`)?.classList.add('selected');
-      showResult('cof-combat-result', `Seleccionado: ${grid[idx].token.name}. Click en otra casilla para mover.`, 'info');
+      const t = grid[idx].token;
+      const hpInfo = t.hp !== null && t.hp !== undefined ? ` | HP: ${t.hp}` : '';
+      showResult('cof-combat-result',
+        `<strong>${t.name}</strong> (${t.type})${hpInfo}<br>` +
+        `<span style="font-size:0.8em;color:var(--text3)">Click en otra casilla para mover` +
+        (t.hp !== null ? ` | <a href="#" onclick="CoF.damageToken(${idx},-1);return false" style="color:var(--accent)">-1 HP</a> <a href="#" onclick="CoF.damageToken(${idx},1);return false" style="color:var(--green)">+1 HP</a>` : '') +
+        ` | <a href="#" onclick="CoF.removeToken(${idx});return false" style="color:var(--accent)">Quitar</a></span>`,
+        'info');
     }
   }
 
@@ -385,9 +396,11 @@ const CoF = (() => {
     const labels = {player: 'Jugador', ally: 'Aliado', enemy: 'Enemigo'};
     const name = prompt(`Nombre del ${labels[type]}:`, labels[type]);
     if (!name) return;
+    const hpStr = prompt('HP (dejar vacio para sin HP):', '');
+    const hp = hpStr ? parseInt(hpStr) || null : null;
     const emptyIdx = grid.findIndex(c => !c.token);
     if (emptyIdx === -1) { alert('Grid lleno'); return; }
-    grid[emptyIdx] = {...grid[emptyIdx], token: {name, type, icon: icons[type], img: null}};
+    grid[emptyIdx] = {...grid[emptyIdx], token: {name, type, icon: icons[type], img: null, hp}};
     save();
     renderGrid();
     SFX.click();
@@ -473,6 +486,15 @@ const CoF = (() => {
     selectedToken = null;
     save();
     renderGrid();
+  }
+
+  function damageToken(idx, delta) {
+    if (!grid[idx].token || grid[idx].token.hp === null || grid[idx].token.hp === undefined) return;
+    grid[idx].token.hp = Math.max(0, grid[idx].token.hp + delta);
+    save();
+    renderGrid();
+    const t = grid[idx].token;
+    if (t.hp <= 0) showResult('cof-combat-result', `💀 ${t.name} ha caido (0 HP)`, 'critical');
   }
 
   function generateTerrain() {
@@ -893,7 +915,7 @@ const CoF = (() => {
     adjustHumanity, adjustAnguish, anguishCheck, adjustTrauma,
     setMinor, setMajor, postCombatCheck,
     addResource, useResource, removeResource,
-    clickCell, addToken, addTokenWithImage, dropOnCell, removeToken, generateTerrain, clearGrid, rollWound,
+    clickCell, addToken, addTokenWithImage, dropOnCell, removeToken, damageToken, generateTerrain, clearGrid, rollWound,
     pray, apostasy,
     travelMove, scavenge, adjustRumors, resetTravel,
     toggleRef, searchRef,
