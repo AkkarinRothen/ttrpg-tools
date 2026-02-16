@@ -1117,6 +1117,65 @@ body.compact-mode #compact-view { display: grid !important; }
 .ux-toggle.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
 /* ============================================
+   V4: AUTH & SYNC
+   ============================================ */
+.auth-panel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.auth-btn {
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 0.75em;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.auth-btn:hover { border-color: var(--accent); color: var(--text); }
+.auth-logout { font-size: 0.85em; padding: 4px 6px; }
+.auth-user {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.auth-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+.auth-name {
+  font-size: 0.72em;
+  color: var(--text2);
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sync-indicator {
+  font-size: 0.85em;
+  transition: all 0.3s;
+  display: inline-block;
+}
+.sync-indicator.syncing {
+  animation: spin 1s linear infinite;
+  color: var(--gold);
+}
+.sync-indicator.done { color: var(--green); }
+.sync-indicator.error { color: var(--accent); }
+.sync-indicator.idle { color: var(--text3); }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+@media (max-width: 768px) {
+  .auth-name { display: none; }
+  .auth-sync { display: none; }
+}
+
+/* ============================================
    V3: BACKUP PANEL
    ============================================ */
 .backup-panel {

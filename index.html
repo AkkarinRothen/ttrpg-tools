@@ -31,6 +31,16 @@
     <label class="ux-toggle" title="Auto-log al diario"><input type="checkbox" id="autoLogToggle" onchange="Journal.setAutoLog(this.checked)" checked>Auto-log</label>
     <button class="ux-btn" id="muteBtn" onclick="toggleMute()" title="Silenciar sonidos">&#x1F50A;</button>
   </div>
+  <div class="auth-panel">
+    <button class="auth-btn" id="authLoginBtn" onclick="Auth.login()" title="Iniciar sesion con Google">&#x1F512; Login</button>
+    <div class="auth-user" id="authUserPanel" style="display:none">
+      <img class="auth-avatar" id="authAvatar" alt="" referrerpolicy="no-referrer">
+      <span class="auth-name" id="authName"></span>
+      <span class="sync-indicator idle" id="syncIndicator" title="Estado de sync">&#x1F504;</span>
+      <button class="auth-btn auth-sync" onclick="Sync.syncNow()" title="Sincronizar ahora">&#x2601;&#xFE0F; Sync</button>
+      <button class="auth-btn auth-logout" onclick="Auth.logout()" title="Cerrar sesion">&#x1F6AA;</button>
+    </div>
+  </div>
   <button class="compact-toggle" id="compactBtn" onclick="toggleCompact()" title="Modo Compacto">&#x25A3;</button>
   <div class="theme-picker">
     <button class="theme-btn" onclick="toggleThemeMenu()">&#x1F3A8;</button>
@@ -843,6 +853,10 @@
   <button onclick="showHome()">&#x1F3E0;</button>
 </div>
 
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script src="js/firebase-config.js"></script>
 <script src="js/eventbus.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/dice.js"></script>
@@ -857,6 +871,8 @@
 <script src="js/spells.js"></script>
 <script src="js/dungeon.js"></script>
 <script src="js/cof.js"></script>
+<script src="js/sync.js"></script>
+<script src="js/auth.js"></script>
 <script>
 // === NAVIGATION ===
 const sections = ['dice','oracle','tables','initiative','encounter','npc','reference','journal','loot','spells','dungeon','cof'];
@@ -959,6 +975,8 @@ function toggleMute() {
 if (SFX.isMuted()) document.getElementById('muteBtn').textContent = '\u{1F507}';
 // Init auto-log toggle
 document.getElementById('autoLogToggle').checked = localStorage.getItem('ttrpg_autolog') !== '0';
+// Init Firebase Auth
+Auth.init();
 
 // === BACKUP ===
 function exportBackup() {

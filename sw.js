@@ -1,8 +1,11 @@
-const CACHE_NAME = 'ttrpg-tools-v4';
+const CACHE_NAME = 'ttrpg-tools-v5';
 const ASSETS = [
   './',
   './index.html',
   './css/style.css',
+  './js/firebase-config.js',
+  './js/auth.js',
+  './js/sync.js',
   './js/eventbus.js',
   './js/audio.js',
   './js/dice.js',
