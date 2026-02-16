@@ -5,13 +5,31 @@ const Journal = (() => {
   let sessions = [];
   let activeSessionId = null;
   let threads = { threads: [], npcs: [] };
+  let autoLog = localStorage.getItem('ttrpg_autolog') !== '0';
 
   function init() {
     try { sessions = JSON.parse(localStorage.getItem(JKEY) || '[]'); } catch { sessions = []; }
     try { threads = JSON.parse(localStorage.getItem(TKEY) || '{"threads":[],"npcs":[]}'); } catch { threads = { threads: [], npcs: [] }; }
     renderSessions();
     renderThreads();
+    Bus.on('dice:rolled', d => autoLogEntry('tirada', `${d.formula} = ${d.total}${d.nat20 ? ' (NAT 20!)' : ''}${d.nat1 ? ' (NAT 1!)' : ''}`));
+    Bus.on('oracle:answered', d => autoLogEntry('oraculo', `${d.answer} (d100=${d.roll} vs ${d.threshold})${d.event ? ' | ' + d.event : ''}`));
+    Bus.on('oracle:meaning', d => autoLogEntry('oraculo', `Significado: ${d.action} + ${d.subject}`));
+    Bus.on('cof:rolled', d => autoLogEntry('tirada', d.text));
   }
+
+  function autoLogEntry(type, text) {
+    if (!autoLog || !activeSessionId) return;
+    const s = sessions.find(x => x.id === activeSessionId);
+    if (!s) return;
+    s.entries.push({ id: 'e-' + Date.now(), type, text: '[Auto] ' + text, time: Date.now() });
+    save();
+    renderEntries();
+    renderSessions();
+  }
+
+  function setAutoLog(on) { autoLog = on; localStorage.setItem('ttrpg_autolog', on ? '1' : '0'); }
+  function isAutoLog() { return autoLog; }
 
   function save() { localStorage.setItem(JKEY, JSON.stringify(sessions)); }
   function saveThreads() { localStorage.setItem(TKEY, JSON.stringify(threads)); }
@@ -202,6 +220,7 @@ const Journal = (() => {
     init, newSession, openSession, deleteSession,
     addEntry, deleteEntry, exportSession,
     addThread, resolveThread, deleteThread,
-    addNPC, toggleNPC, deleteNPC
+    addNPC, toggleNPC, deleteNPC,
+    setAutoLog, isAutoLog
   };
 })();

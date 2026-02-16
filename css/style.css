@@ -1060,3 +1060,215 @@ body.compact-mode #compact-view { display: grid !important; }
   .cof-travel-stats { grid-template-columns: repeat(2, 1fr); }
   .cof-prayer-grid { grid-template-columns: 1fr; }
 }
+
+/* ============================================
+   V3: ANIMATIONS
+   ============================================ */
+@keyframes dice-bounce { 0% { transform: scale(0.5) rotate(-10deg); opacity: 0; } 50% { transform: scale(1.2) rotate(5deg); } 100% { transform: scale(1) rotate(0); opacity: 1; } }
+@keyframes glow-gold { 0%, 100% { box-shadow: 0 0 8px rgba(201, 162, 39, 0.5); } 50% { box-shadow: 0 0 24px rgba(201, 162, 39, 0.9); } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
+@keyframes flash-white { 0% { opacity: 0; } 20% { opacity: 0.8; } 100% { opacity: 0; } }
+@keyframes fadeSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.dice-val { animation: dice-bounce 0.3s ease-out; }
+.dice-result.crit .dice-val { animation: dice-bounce 0.3s ease-out, glow-gold 1s infinite; color: var(--gold); }
+.dice-result.fail .dice-val { animation: dice-bounce 0.3s ease-out, shake 0.4s; color: var(--accent); }
+
+.tool-section.active { animation: fadeSlideIn 0.2s ease-out; }
+
+.cof-ascension { animation: pulse-red 0.8s infinite, flash-white 0.3s; }
+.cof-result { animation: fadeSlideIn 0.2s ease-out; }
+
+/* ============================================
+   V3: UX CONTROLS (header toggles)
+   ============================================ */
+.ux-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+.ux-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text2);
+  cursor: pointer;
+  padding: 4px 8px;
+  font-size: 0.75em;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.ux-toggle:hover { border-color: var(--text2); color: var(--text); }
+.ux-toggle.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* ============================================
+   V3: BACKUP PANEL
+   ============================================ */
+.backup-panel {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+.backup-panel.open { display: flex; }
+.backup-box {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+}
+.backup-box h3 { margin-bottom: 16px; }
+.backup-box .input-row { margin-bottom: 12px; }
+
+/* ============================================
+   V3: MOBILE BOTTOM BAR
+   ============================================ */
+.mobile-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 6px 8px env(safe-area-inset-bottom);
+  z-index: 900;
+  justify-content: space-around;
+}
+.mobile-bar button {
+  background: transparent;
+  border: none;
+  color: var(--text2);
+  font-size: 1.3em;
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.15s;
+}
+.mobile-bar button:active { background: var(--bg4); transform: scale(0.95); }
+
+@media (max-width: 768px) {
+  .mobile-bar { display: flex; }
+  body { padding-bottom: 56px; }
+  .site-nav { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; }
+  .site-nav::-webkit-scrollbar { display: none; }
+  .nav-btn { scroll-snap-align: start; min-width: max-content; min-height: 44px; }
+  .btn, .dice-btn, .oracle-btn { min-height: 44px; }
+}
+
+/* ============================================
+   V3: SPELL TRACKER
+   ============================================ */
+.spell-slots-grid { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+.spell-level { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; min-width: 80px; text-align: center; }
+.spell-level-label { font-size: 0.7em; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px; }
+.spell-pips { display: flex; gap: 3px; justify-content: center; }
+.spell-pip {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--purple);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.spell-pip:hover { border-color: var(--text); }
+.spell-pip.used { background: var(--purple); }
+.spell-config { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+.prepared-list { max-height: 300px; overflow-y: auto; }
+.prepared-item { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-bottom: 1px solid var(--border); font-size: 0.85em; }
+.prepared-item .spell-lvl { color: var(--purple); font-weight: 700; min-width: 20px; }
+.concentration-badge { background: rgba(167, 139, 250, 0.2); color: var(--purple); padding: 2px 8px; border-radius: 4px; font-size: 0.75em; font-weight: 600; }
+
+/* ============================================
+   V3: LOOT GENERATOR
+   ============================================ */
+.loot-result { padding: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; margin-top: 12px; }
+.loot-coins { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.loot-coin { font-size: 0.85em; }
+.loot-coin .amount { font-weight: 700; }
+.loot-coin.gp { color: var(--gold); }
+.loot-coin.sp { color: #c0c0c0; }
+.loot-coin.cp { color: #cd7f32; }
+.loot-coin.pp { color: #e5e4e2; }
+.loot-coin.ep { color: #b0b0b0; }
+.loot-items { list-style: none; padding: 0; }
+.loot-items li { padding: 4px 0; border-bottom: 1px solid var(--border); font-size: 0.85em; }
+.loot-items li:last-child { border: none; }
+.loot-rarity-common { color: var(--text); }
+.loot-rarity-uncommon { color: var(--green); }
+.loot-rarity-rare { color: var(--blue); }
+.loot-rarity-veryrare { color: var(--purple); }
+.loot-rarity-legendary { color: var(--gold); }
+
+/* ============================================
+   V3: DUNGEON GENERATOR
+   ============================================ */
+.dungeon-map { display: flex; flex-direction: column; gap: 4px; }
+.dungeon-room {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.dungeon-room:hover { border-color: var(--accent); }
+.dungeon-room.expanded { background: var(--bg2); }
+.dungeon-room-header { display: flex; justify-content: space-between; align-items: center; }
+.dungeon-room-num { font-weight: 700; color: var(--accent); margin-right: 8px; }
+.dungeon-room-type { font-size: 0.78em; color: var(--text2); }
+.dungeon-room-icon { font-size: 1.1em; }
+.dungeon-room-details { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); font-size: 0.85em; color: var(--text2); display: none; }
+.dungeon-room.expanded .dungeon-room-details { display: block; }
+.dungeon-connections { font-size: 0.75em; color: var(--text3); margin-top: 4px; }
+
+/* ============================================
+   V3: COF SETTLEMENT
+   ============================================ */
+.cof-settlement-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 12px; }
+.cof-settle-stat { text-align: center; padding: 10px; background: var(--bg); border-radius: 8px; border: 1px solid var(--border); }
+.cof-settle-stat .label { display: block; font-size: 0.7em; color: var(--text3); text-transform: uppercase; }
+.cof-settle-stat .value { display: block; font-size: 1.3em; font-weight: 700; }
+.cof-building-list { max-height: 250px; overflow-y: auto; }
+.cof-building-item { display: flex; align-items: center; gap: 8px; padding: 8px; border-bottom: 1px solid var(--border); font-size: 0.85em; }
+.cof-building-icon { font-size: 1.2em; }
+.cof-building-name { font-weight: 600; min-width: 80px; }
+.cof-building-effect { flex: 1; color: var(--text2); font-size: 0.85em; }
+@media (max-width: 768px) {
+  .cof-settlement-stats { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* COF Incursion Grid */
+.cof-incursion-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  max-width: 500px;
+  margin: 12px auto;
+}
+.cof-inc-cell {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.15s;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.cof-inc-cell:hover { border-color: var(--cof-accent); transform: scale(1.03); }
+.cof-inc-cell.empty { border-style: dashed; }
+.cof-inc-cell.empty .cof-inc-unknown { font-size: 2em; color: var(--text3); }
+.cof-inc-cell.revealed { background: var(--bg2); border-color: var(--cof-accent); }
+.cof-inc-label { font-size: 0.65em; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+.cof-inc-poi { font-size: 0.75em; color: var(--text2); line-height: 1.3; }

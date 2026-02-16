@@ -25,6 +25,10 @@ const Dice = (() => {
     if (!r) return;
     showResult(r);
     addHist(r);
+    SFX.diceRoll();
+    if (r.nat20) SFX.critSuccess();
+    if (r.nat1) SFX.critFail();
+    Bus.emit('dice:rolled', { formula: r.formula, total: r.total, breakdown: r.breakdown, nat20: r.nat20, nat1: r.nat1 });
   }
 
   function rollAdv(adv) {
@@ -37,6 +41,10 @@ const Dice = (() => {
     };
     showResult(r);
     addHist(r);
+    SFX.diceRoll();
+    if (r.nat20) SFX.critSuccess();
+    if (r.nat1) SFX.critFail();
+    Bus.emit('dice:rolled', { formula: r.formula, total: r.total, breakdown: r.breakdown, nat20: r.nat20, nat1: r.nat1 });
   }
 
   function rollCustom() {

@@ -1,0 +1,77 @@
+{
+  "roomTypes": [
+    {"type": "entrance", "icon": "🚪", "label": "Entrada"},
+    {"type": "corridor", "icon": "🏚️", "label": "Pasillo"},
+    {"type": "chamber", "icon": "🏛️", "label": "Sala"},
+    {"type": "trap", "icon": "⚠️", "label": "Trampa"},
+    {"type": "treasure", "icon": "💰", "label": "Tesoro"},
+    {"type": "boss", "icon": "👹", "label": "Boss"}
+  ],
+  "roomSizes": ["Pequeña (15×15 ft)", "Mediana (20×20 ft)", "Grande (30×30 ft)", "Enorme (40×40 ft)", "Irregular (forma extraña)"],
+  "roomFeatures": [
+    "Pilares derrumbados bloquean parcialmente el paso",
+    "Un pozo profundo ocupa el centro de la sala",
+    "Hongos bioluminiscentes iluminan las paredes",
+    "Agua estancada cubre el suelo (terreno difícil)",
+    "Telarañas gruesas cuelgan del techo",
+    "Estatuas desfiguradas custodian las esquinas",
+    "Runas antiguas brillan en las paredes",
+    "Un altar roto yace volcado en el centro",
+    "Cadenas oxidadas cuelgan del techo",
+    "El suelo tiene un mosaico parcialmente destruido",
+    "Varias alcobas con sarcófagos de piedra",
+    "Un trono de hueso en una plataforma elevada",
+    "Corriente de aire frío desde una grieta en la pared",
+    "Restos de un campamento abandonado",
+    "Marcas de garras profundas en las paredes de piedra",
+    "Cristales naturales emergen del suelo rocoso",
+    "Una fuente seca con una estatua decapitada",
+    "Escaleras parcialmente derrumbadas suben/bajan",
+    "Un puente de piedra sobre un abismo estrecho",
+    "Nichos en las paredes contienen urnas funerarias"
+  ],
+  "traps": [
+    {"name": "Foso oculto", "desc": "El suelo cede, 10 ft de caída. DC 12 DEX save o 2d6 contundente.", "dc": 12},
+    {"name": "Dardos envenenados", "desc": "Placa de presión dispara dardos. DC 13 DEX save o 1d4+veneno (DC 11 CON).", "dc": 13},
+    {"name": "Runa de fuego", "desc": "Pisar activa una explosión. DC 14 DEX save o 4d6 fuego en 10 ft.", "dc": 14},
+    {"name": "Gas somnífero", "desc": "Válvula libera gas. DC 12 CON save o inconsciente 1 minuto.", "dc": 12},
+    {"name": "Péndulo de cuchillas", "desc": "Pasillo con cuchillas. DC 15 DEX save o 3d8 cortante.", "dc": 15},
+    {"name": "Suelo electrificado", "desc": "Placas metálicas con trampa. DC 13 DEX save o 3d6 relámpago.", "dc": 13},
+    {"name": "Techo derrumbante", "desc": "Sección del techo cae. DC 14 DEX save o 4d6 contundente.", "dc": 14},
+    {"name": "Glifo de guardia", "desc": "Glifo mágico en la puerta. DC 15 INT (Investigation) o 5d8 del tipo elegido.", "dc": 15},
+    {"name": "Telaraña adhesiva", "desc": "Telarañas invisibles. DC 12 STR save o restrained. DC 12 para escapar.", "dc": 12},
+    {"name": "Ilusión de suelo", "desc": "El suelo parece sólido pero es ilusorio. DC 14 INT (Investigation) para detectar, 20 ft caída.", "dc": 14}
+  ],
+  "monsters": {
+    "low": ["2d4 Kobolds", "1d4 Goblins + 1 Goblin Boss", "1d6 Esqueletos", "2d4 Ratas gigantes", "1 Gelatinous Cube", "1d4 Zombies", "1 Mimic", "2d4 Stirges", "1 Bugbear", "1d4 Wolves sombríos"],
+    "mid": ["2d4 Orcos", "1d4 Ogros", "1 Troll", "2d6 Ghouls + 1 Ghast", "1 Basilisk", "1d4 Wights", "2d4 Hobgoblins + 1 Captain", "1 Owlbear", "1 Minotaur", "1d4 Hell Hounds"],
+    "high": ["1 Young Dragon", "2d4 Wraiths", "1 Beholder Zombie", "1d4 Trolls", "1 Mind Flayer", "2d6 Shadows", "1 Vampire Spawn + 2d6 Skeletons", "1d4 Elementals", "1 Hydra", "1 Stone Golem"]
+  },
+  "treasureContents": [
+    "Cofre con {coins} monedas de oro y {gems} gemas",
+    "Arma mágica en un soporte de piedra: {magic}",
+    "Pergamino antiguo con un conjuro: {scroll}",
+    "Poción brillante en un frasco de cristal: {potion}",
+    "Reliquia religiosa de valor incalculable ({value} GP)",
+    "Mapa del tesoro que señala otra locación",
+    "Libro de conocimientos arcanos (+1 a checks de Arcana)",
+    "Anillo mágico oculto en un compartimento: {magic}",
+    "Gemas esparcidas entre huesos: {gems}",
+    "Armadura ornamental en un maniquí de madera: {magic}"
+  ],
+  "potions": ["Curación", "Curación mayor", "Resistencia al fuego", "Velocidad", "Invisibilidad", "Escalada", "Fuerza de gigante", "Heroísmo", "Vuelo", "Resistencia"],
+  "scrolls": ["Detectar magia", "Escudo", "Curar heridas", "Bola de fuego", "Revivify", "Rayo relámpago", "Disipar magia", "Haste", "Contrahechizo", "Muro de fuego"],
+  "dungeonThemes": [
+    {"name": "Cripta ancestral", "desc": "Tumbas antiguas profanadas por nigromantes"},
+    {"name": "Guarida de bandidos", "desc": "Sistema de cuevas convertido en base criminal"},
+    {"name": "Templo abandonado", "desc": "Un santuario olvidado con secretos oscuros"},
+    {"name": "Mina colapsada", "desc": "Túneles inestables con minerales valiosos"},
+    {"name": "Laboratorio arcano", "desc": "Experimentos mágicos abandonados y peligrosos"},
+    {"name": "Alcantarillado de la ciudad", "desc": "Red de túneles bajo la urbe infestados de criaturas"},
+    {"name": "Ruinas élficas", "desc": "Restos de una civilización élfica caída"},
+    {"name": "Nido de monstruo", "desc": "La guarida de una criatura poderosa y sus vasallos"},
+    {"name": "Prisión subterránea", "desc": "Calabozos que aún retienen prisioneros o sus fantasmas"},
+    {"name": "Portal dimensional", "desc": "Cavernas distorsionadas por energía planar"}
+  ],
+  "connections": ["Puerta de madera", "Puerta de piedra", "Arco abierto", "Pasillo estrecho", "Escaleras descendentes", "Escaleras ascendentes", "Puerta secreta (DC 15)", "Pasaje derrumbado (parcialmente transitable)", "Puente sobre foso", "Portcullis de hierro"]
+}

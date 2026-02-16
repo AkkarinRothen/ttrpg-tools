@@ -1,0 +1,122 @@
+{
+  "individual": {
+    "0-4": {
+      "label": "CR 0-4",
+      "coins": [
+        {"roll": [1,30], "loot": "5d6 CP"},
+        {"roll": [31,60], "loot": "4d6 SP"},
+        {"roll": [61,70], "loot": "3d6 EP"},
+        {"roll": [71,95], "loot": "3d6 GP"},
+        {"roll": [96,100], "loot": "1d6 PP"}
+      ]
+    },
+    "5-10": {
+      "label": "CR 5-10",
+      "coins": [
+        {"roll": [1,30], "loot": "4d6×100 CP, 1d6×10 EP"},
+        {"roll": [31,60], "loot": "6d6×10 SP, 2d6×10 GP"},
+        {"roll": [61,70], "loot": "3d6×10 EP, 2d6×10 GP"},
+        {"roll": [71,95], "loot": "4d6×10 GP"},
+        {"roll": [96,100], "loot": "2d6×10 GP, 3d6 PP"}
+      ]
+    },
+    "11-16": {
+      "label": "CR 11-16",
+      "coins": [
+        {"roll": [1,20], "loot": "4d6×100 SP, 1d6×100 GP"},
+        {"roll": [21,35], "loot": "1d6×100 EP, 1d6×100 GP"},
+        {"roll": [36,75], "loot": "2d6×100 GP, 1d6×10 PP"},
+        {"roll": [76,100], "loot": "2d6×100 GP, 2d6×10 PP"}
+      ]
+    },
+    "17+": {
+      "label": "CR 17+",
+      "coins": [
+        {"roll": [1,15], "loot": "2d6×1000 EP, 8d6×100 GP"},
+        {"roll": [16,55], "loot": "1d6×1000 GP, 1d6×100 PP"},
+        {"roll": [56,100], "loot": "1d6×1000 GP, 2d6×100 PP"}
+      ]
+    }
+  },
+  "hoard": {
+    "0-4": {
+      "label": "CR 0-4",
+      "base_coins": "6d6×100 CP, 3d6×100 SP, 2d6×10 GP",
+      "extras": [
+        {"roll": [1,6], "loot": "Nada extra"},
+        {"roll": [7,16], "loot": "2d6 gemas (10 GP c/u)"},
+        {"roll": [17,26], "loot": "2d4 objetos de arte (25 GP c/u)"},
+        {"roll": [27,36], "loot": "2d6 gemas (50 GP c/u)"},
+        {"roll": [37,44], "loot": "2d6 gemas (10 GP c/u) + 1d6 items Tabla A"},
+        {"roll": [45,52], "loot": "2d4 objetos de arte (25 GP c/u) + 1d6 items Tabla A"},
+        {"roll": [53,60], "loot": "2d6 gemas (50 GP c/u) + 1d6 items Tabla A"},
+        {"roll": [61,65], "loot": "2d6 gemas (10 GP c/u) + 1d4 items Tabla B"},
+        {"roll": [66,70], "loot": "2d4 objetos de arte (25 GP c/u) + 1d4 items Tabla B"},
+        {"roll": [71,75], "loot": "2d6 gemas (50 GP c/u) + 1d4 items Tabla B"},
+        {"roll": [76,78], "loot": "2d6 gemas (10 GP c/u) + 1d4 items Tabla C"},
+        {"roll": [79,80], "loot": "2d4 objetos de arte (25 GP c/u) + 1d4 items Tabla C"},
+        {"roll": [81,85], "loot": "2d6 gemas (50 GP c/u) + 1d4 items Tabla C"},
+        {"roll": [86,92], "loot": "2d4 objetos de arte (25 GP c/u) + 1d4 items Tabla F"},
+        {"roll": [93,97], "loot": "2d6 gemas (50 GP c/u) + 1d4 items Tabla F"},
+        {"roll": [98,99], "loot": "2d4 objetos de arte (25 GP c/u) + 1 item Tabla G"},
+        {"roll": [100,100], "loot": "2d6 gemas (50 GP c/u) + 1 item Tabla G"}
+      ]
+    },
+    "5-10": {
+      "label": "CR 5-10",
+      "base_coins": "2d6×100 CP, 2d6×1000 SP, 6d6×100 GP, 3d6×10 PP",
+      "extras": [
+        {"roll": [1,4], "loot": "Nada extra"},
+        {"roll": [5,10], "loot": "2d4 objetos de arte (25 GP c/u)"},
+        {"roll": [11,16], "loot": "3d6 gemas (50 GP c/u)"},
+        {"roll": [17,22], "loot": "3d6 gemas (100 GP c/u)"},
+        {"roll": [23,28], "loot": "2d4 objetos de arte (250 GP c/u)"},
+        {"roll": [29,32], "loot": "2d4 objetos de arte (25 GP c/u) + 1d6 items Tabla A"},
+        {"roll": [33,36], "loot": "3d6 gemas (50 GP c/u) + 1d6 items Tabla A"},
+        {"roll": [37,40], "loot": "3d6 gemas (100 GP c/u) + 1d6 items Tabla A"},
+        {"roll": [41,44], "loot": "2d4 objetos de arte (250 GP c/u) + 1d6 items Tabla A"},
+        {"roll": [45,49], "loot": "2d4 objetos de arte (25 GP c/u) + 1d4 items Tabla B"},
+        {"roll": [50,54], "loot": "3d6 gemas (50 GP c/u) + 1d4 items Tabla B"},
+        {"roll": [55,59], "loot": "3d6 gemas (100 GP c/u) + 1d4 items Tabla B"},
+        {"roll": [60,63], "loot": "2d4 objetos de arte (250 GP c/u) + 1d4 items Tabla B"},
+        {"roll": [64,66], "loot": "2d4 objetos de arte (25 GP c/u) + 1d4 items Tabla C"},
+        {"roll": [67,69], "loot": "3d6 gemas (50 GP c/u) + 1d4 items Tabla C"},
+        {"roll": [70,72], "loot": "3d6 gemas (100 GP c/u) + 1d4 items Tabla C"},
+        {"roll": [73,74], "loot": "2d4 objetos de arte (250 GP c/u) + 1d4 items Tabla C"},
+        {"roll": [75,76], "loot": "2d4 objetos de arte (25 GP c/u) + 1 item Tabla D"},
+        {"roll": [77,78], "loot": "3d6 gemas (50 GP c/u) + 1 item Tabla D"},
+        {"roll": [79,80], "loot": "3d6 gemas (100 GP c/u) + 1 item Tabla D"},
+        {"roll": [81,84], "loot": "2d4 objetos de arte (250 GP c/u) + 1 item Tabla D"},
+        {"roll": [85,88], "loot": "2d4 objetos de arte (25 GP c/u) + 1d4 items Tabla F"},
+        {"roll": [89,91], "loot": "3d6 gemas (50 GP c/u) + 1d4 items Tabla F"},
+        {"roll": [92,94], "loot": "3d6 gemas (100 GP c/u) + 1d4 items Tabla F"},
+        {"roll": [95,96], "loot": "2d4 objetos de arte (250 GP c/u) + 1d4 items Tabla F"},
+        {"roll": [97,98], "loot": "3d6 gemas (100 GP c/u) + 1d4 items Tabla G"},
+        {"roll": [99,100], "loot": "2d4 objetos de arte (250 GP c/u) + 1 item Tabla H"}
+      ]
+    }
+  },
+  "gems": {
+    "10": ["Azurita", "Cuarzo azul", "Ojo de tigre", "Turquesa", "Obsidiana", "Agata", "Hematita", "Lapislazuli", "Malaquita", "Rodonita"],
+    "50": ["Piedra de sangre", "Cornalina", "Calcedonia", "Crisoprasa", "Citrina", "Jaspe", "Ónix", "Sardónica", "Cuarzo estrella", "Zircón"],
+    "100": ["Ámbar", "Amatista", "Crisóberilo", "Coral", "Granate", "Jade", "Jet", "Perla", "Espinela", "Turmalina"],
+    "500": ["Alejandrita", "Aguamarina", "Perla negra", "Espinela azul", "Peridoto", "Topacio", "Zafiro estrella"],
+    "1000": ["Ópalo negro", "Zafiro azul", "Esmeralda", "Ópalo de fuego", "Jacinto azul", "Rubí estrella"],
+    "5000": ["Diamante", "Jacinto", "Rubí", "Zafiro", "Esmeralda brillante", "Diamante negro"]
+  },
+  "art": {
+    "25": ["Estatuilla de hueso", "Brazalete de oro pequeño", "Manto de tela de oro", "Frasco de perfume de plata", "Broche de plata", "Vestiduras de seda bordadas", "Pequeña pintura de retrato", "Dado de marfil", "Collar de cuentas de cristal", "Cubiertos de plata"],
+    "250": ["Anillo de oro con piedra de sangre", "Ídolo de marfil", "Incensario de electro grande", "Arma ceremonial pequeña de plata", "Tapiz decorado", "Máscara de oro", "Cáliz de plata con filigrana", "Pintura de paisaje enmarcada", "Corona de plata antigua", "Seda bordada con hilo de platino"],
+    "750": ["Cáliz de oro con gemas", "Figura de marfil pintada", "Collar de gemas finas", "Tiara de electro", "Corona ceremonial antigua", "Pintura de un maestro famoso", "Pectoral de platino con zafiros", "Guantes bordados con joyas", "Máscara funeraria de oro", "Abanico con encaje de platino"],
+    "2500": ["Collar de platino con gemas", "Anillo de platino con ópalo negro", "Pequeña corona de oro con rubíes", "Reloj solar de electro con esmeraldas", "Estatuilla de oro macizo", "Espejo enmarcado en platino", "Copa enjoyada de oro puro"]
+  },
+  "magicTables": {
+    "A": ["Poción de curación", "Pergamino de conjuro (cantrip)", "Poción de escalada", "Pergamino de conjuro (nv 1)", "Pergamino de conjuro (nv 2)", "Poción de curación mayor", "Bolsa de trucos", "Capa de manta ray", "Ojos de búho", "Piedra de la suerte"],
+    "B": ["Poción de resistencia a fuego", "Poción de curación mayor", "Armadura +1 (cuero)", "Capa de protección", "Guanteletes de poder de ogro", "Anillo de salto", "Anillo de protección mental", "Varita de proyectiles mágicos", "Arma +1", "Escudo +1"],
+    "C": ["Poción de curación superior", "Pergamino de conjuro (nv 4)", "Munición +2", "Poción de clarividencia", "Pergamino de conjuro (nv 5)", "Poción de velocidad", "Bastón de curación", "Capa de desplazamiento", "Arma +2", "Armadura +1 (cota)"],
+    "D": ["Poción de curación suprema", "Pergamino de conjuro (nv 6)", "Pergamino de conjuro (nv 7)", "Munición +3", "Arma +3", "Varita del mago de guerra +1", "Capa de aracnido", "Escudo +2", "Armadura +2", "Arco del juramento"],
+    "F": ["Arma +1", "Escudo +1", "Amuleto de protección contra detección", "Botas de los elfos", "Botas de grandes zancadas", "Brazaletes de defensa", "Broche de escudo", "Escoba de vuelo", "Capa de elvenkind", "Diadema de destrucción"],
+    "G": ["Arma +2", "Capa de desplazamiento", "Capa de murciélago", "Bastón del bosque", "Espada danzante", "Armadura de resistencia", "Escudo animado", "Espada del fuego", "Varita del mago de guerra +2", "Arma de velocidad"],
+    "H": ["Arma +3", "Armadura +2", "Escudo +3", "Capa de invisibilidad", "Bastón de poder", "Espada vorpal", "Armadura de invulnerabilidad", "Manto de resistencia mágica", "Tomo de conocimiento", "Varita del mago de guerra +3"]
+  }
+}

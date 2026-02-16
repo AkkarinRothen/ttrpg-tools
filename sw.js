@@ -1,8 +1,10 @@
-const CACHE_NAME = 'ttrpg-tools-v2';
+const CACHE_NAME = 'ttrpg-tools-v3';
 const ASSETS = [
   './',
   './index.html',
   './css/style.css',
+  './js/eventbus.js',
+  './js/audio.js',
   './js/dice.js',
   './js/oracle.js',
   './js/tables.js',
@@ -11,13 +13,18 @@ const ASSETS = [
   './js/npc.js',
   './js/reference.js',
   './js/journal.js',
+  './js/loot.js',
+  './js/spells.js',
+  './js/dungeon.js',
   './js/cof.js',
   './data/oracle-tables.json',
   './data/random-tables.json',
   './data/monsters-srd.json',
   './data/npc-tables.json',
   './data/reference.json',
-  './data/cof-tables.json'
+  './data/cof-tables.json',
+  './data/loot-tables.json',
+  './data/dungeon-tables.json'
 ];
 
 self.addEventListener('install', e => {

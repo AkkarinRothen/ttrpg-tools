@@ -5,6 +5,10 @@ const CoF = (() => {
   let usageDice = [];
   let grid = Array.from({length: 25}, () => ({token: null, terrain: null}));
   let travel = {day: 1, turn: 0, rations: 0, rumors: 0};
+  let settlement = {name: '', population: 5, discontent: 0, renown: 0, buildings: []};
+  let incursionGrid = Array(9).fill(null);
+  let characters = [];
+  let activeCharIdx = 0;
   let currentTab = 'character';
 
   const DICE_CHAIN = ['d4','d6','d8','d10','d12'];
@@ -12,6 +16,10 @@ const CoF = (() => {
   const STORAGE_USAGE = 'cof_usage_dice';
   const STORAGE_GRID = 'cof_grid';
   const STORAGE_TRAVEL = 'cof_travel';
+  const STORAGE_SETTLE = 'cof_settlement';
+  const STORAGE_INCURSION = 'cof_incursion';
+  const STORAGE_CHARS = 'cof_characters';
+  const STORAGE_ACTIVE = 'cof_active_char';
 
   const defaultChar = () => ({
     name: '', occupation: '', sin: '', shard: '', doom: '',
@@ -32,17 +40,56 @@ const CoF = (() => {
   }
 
   function save() {
+    // Sync current char back to characters array
+    if (characters[activeCharIdx]) {
+      characters[activeCharIdx] = { char, usageDice };
+    }
     localStorage.setItem(STORAGE_CHAR, JSON.stringify(char));
     localStorage.setItem(STORAGE_USAGE, JSON.stringify(usageDice));
     localStorage.setItem(STORAGE_GRID, JSON.stringify(grid));
     localStorage.setItem(STORAGE_TRAVEL, JSON.stringify(travel));
+    localStorage.setItem(STORAGE_SETTLE, JSON.stringify(settlement));
+    localStorage.setItem(STORAGE_INCURSION, JSON.stringify(incursionGrid));
+    saveChars();
+  }
+
+  function saveChars() {
+    localStorage.setItem(STORAGE_CHARS, JSON.stringify(characters));
+    localStorage.setItem(STORAGE_ACTIVE, String(activeCharIdx));
   }
 
   function load() {
-    try { char = JSON.parse(localStorage.getItem(STORAGE_CHAR)) || defaultChar(); } catch { char = defaultChar(); }
-    try { usageDice = JSON.parse(localStorage.getItem(STORAGE_USAGE)) || []; } catch { usageDice = []; }
+    // Load multi-character
+    try { characters = JSON.parse(localStorage.getItem(STORAGE_CHARS)) || []; } catch { characters = []; }
+    try { activeCharIdx = parseInt(localStorage.getItem(STORAGE_ACTIVE)) || 0; } catch { activeCharIdx = 0; }
+
+    // Migrate: if old single-char exists and no characters array
+    if (characters.length === 0) {
+      try {
+        const oldChar = JSON.parse(localStorage.getItem(STORAGE_CHAR));
+        const oldUsage = JSON.parse(localStorage.getItem(STORAGE_USAGE));
+        if (oldChar) {
+          characters.push({ char: oldChar, usageDice: oldUsage || [] });
+          activeCharIdx = 0;
+          saveChars();
+        }
+      } catch {}
+    }
+
+    if (characters.length === 0) {
+      characters.push({ char: defaultChar(), usageDice: [] });
+      activeCharIdx = 0;
+    }
+
+    // Set active character
+    if (activeCharIdx >= characters.length) activeCharIdx = 0;
+    char = characters[activeCharIdx].char;
+    usageDice = characters[activeCharIdx].usageDice;
+
     try { grid = JSON.parse(localStorage.getItem(STORAGE_GRID)) || Array.from({length: 25}, () => ({token: null, terrain: null})); } catch { grid = Array.from({length: 25}, () => ({token: null, terrain: null})); }
     try { travel = JSON.parse(localStorage.getItem(STORAGE_TRAVEL)) || {day: 1, turn: 0, rations: 0, rumors: 0}; } catch { travel = {day: 1, turn: 0, rations: 0, rumors: 0}; }
+    try { settlement = JSON.parse(localStorage.getItem(STORAGE_SETTLE)) || {name: '', population: 5, discontent: 0, renown: 0, buildings: []}; } catch { settlement = {name: '', population: 5, discontent: 0, renown: 0, buildings: []}; }
+    try { incursionGrid = JSON.parse(localStorage.getItem(STORAGE_INCURSION)) || Array(9).fill(null); } catch { incursionGrid = Array(9).fill(null); }
   }
 
   // === TAB NAVIGATION ===
@@ -166,6 +213,8 @@ const CoF = (() => {
       msg += `<strong style="color:#4ade80">Resistes.</strong> Mantienes la cordura... por ahora.`;
     }
     showResult('cof-char-result', msg, failed ? 'critical' : 'success');
+    SFX.diceRoll();
+    Bus.emit('cof:rolled', { text: `CoF Anguish Check: d20=${r} vs ${char.anguish} — ${failed ? 'BREAKDOWN' : 'Resiste'}` });
   }
 
   function adjustTrauma(delta) {
@@ -219,6 +268,8 @@ const CoF = (() => {
     const total = r + m;
     const crit = r === 20 ? ' — ¡CRÍTICO!' : r === 1 ? ' — ¡PIFIA!' : '';
     showResult('cof-char-result', `🎲 ${stat.toUpperCase()} check: d20(${r}) + ${m} = <strong>${total}</strong>${crit}`, r === 1 ? 'critical' : 'success');
+    SFX.diceRoll();
+    Bus.emit('cof:rolled', { text: `CoF ${stat.toUpperCase()} check: d20(${r})+${m}=${total}${crit}` });
   }
 
   // === USAGE DICE ===
@@ -399,6 +450,9 @@ const CoF = (() => {
     }
     save();
     showResult('cof-faith-result', msg, ascension ? 'critical' : 'success');
+    SFX.diceRoll();
+    if (ascension) SFX.critFail();
+    Bus.emit('cof:rolled', { text: `CoF Prayer ${info.name}: d100(${r})+${info.bonus}=${total}${ascension ? ' — ASCENSION!' : ''}` });
   }
 
   function apostasy() {
@@ -545,6 +599,181 @@ const CoF = (() => {
     });
   }
 
+  // === MULTI-CHARACTER ===
+  function renderCharSelect() {
+    const sel = document.getElementById('cof-char-select');
+    if (!sel) return;
+    sel.innerHTML = characters.map((c, i) =>
+      `<option value="${i}"${i === activeCharIdx ? ' selected' : ''}>${c.char.name || 'Personaje ' + (i + 1)}</option>`
+    ).join('');
+  }
+
+  function switchChar(idx) {
+    // Save current char back
+    characters[activeCharIdx] = { char, usageDice };
+    activeCharIdx = parseInt(idx);
+    if (activeCharIdx >= characters.length) activeCharIdx = 0;
+    char = characters[activeCharIdx].char;
+    usageDice = characters[activeCharIdx].usageDice;
+    saveChars();
+    save();
+    renderCharacter();
+  }
+
+  function newChar() {
+    if (characters.length >= 5) { alert('Maximo 5 personajes'); return; }
+    const name = prompt('Nombre del nuevo personaje:');
+    if (!name) return;
+    const newC = defaultChar();
+    newC.name = name;
+    characters.push({ char: newC, usageDice: [] });
+    activeCharIdx = characters.length - 1;
+    char = characters[activeCharIdx].char;
+    usageDice = characters[activeCharIdx].usageDice;
+    saveChars();
+    save();
+    renderCharacter();
+    renderCharSelect();
+  }
+
+  function deleteChar() {
+    if (characters.length <= 1) { alert('Debes tener al menos 1 personaje'); return; }
+    if (!confirm(`Eliminar ${char.name || 'este personaje'}?`)) return;
+    characters.splice(activeCharIdx, 1);
+    activeCharIdx = Math.min(activeCharIdx, characters.length - 1);
+    char = characters[activeCharIdx].char;
+    usageDice = characters[activeCharIdx].usageDice;
+    saveChars();
+    save();
+    renderCharacter();
+    renderCharSelect();
+  }
+
+  // === SETTLEMENT ===
+  function renderSettlement() {
+    const el = document.getElementById('cof-settlement');
+    if (!el) return;
+    const nameInp = document.getElementById('cof-settle-name');
+    if (nameInp) nameInp.value = settlement.name;
+    document.getElementById('cof-settle-pop').textContent = settlement.population;
+    document.getElementById('cof-settle-disc').textContent = settlement.discontent;
+    document.getElementById('cof-settle-renown').textContent = settlement.renown;
+
+    // Tier
+    let tier = 'Farmstead';
+    if (settlement.population >= 26) tier = 'Town';
+    else if (settlement.population >= 11) tier = 'Village';
+    document.getElementById('cof-settle-tier').textContent = tier;
+
+    // Upkeep
+    const upkeep = Math.max(1, Math.ceil(settlement.population / 2));
+    document.getElementById('cof-settle-upkeep').textContent = upkeep;
+
+    renderBuildings();
+  }
+
+  function updateSettlement(field, val) {
+    settlement[field] = val;
+    save();
+  }
+
+  function adjustSettlement(field, delta) {
+    if (field === 'population') settlement.population = Math.max(0, settlement.population + delta);
+    else if (field === 'discontent') settlement.discontent = Math.max(0, settlement.discontent + delta);
+    else if (field === 'renown') settlement.renown = Math.max(0, settlement.renown + delta);
+    save();
+    renderSettlement();
+  }
+
+  function renderBuildings() {
+    const el = document.getElementById('cof-building-list');
+    if (!el) return;
+    if (!settlement.buildings.length) {
+      el.innerHTML = '<div style="color:var(--text3);text-align:center;padding:10px;font-size:0.85em">Sin edificios. Construye para mejorar el asentamiento.</div>';
+      return;
+    }
+    el.innerHTML = settlement.buildings.map((b, i) =>
+      `<div class="cof-building-item">
+        <span class="cof-building-icon">${b.icon}</span>
+        <span class="cof-building-name">${b.name}</span>
+        <span class="cof-building-effect">${b.effect}</span>
+        <button class="btn btn-small btn-danger" onclick="CoF.removeBuilding(${i})" style="padding:2px 6px">&#x2715;</button>
+      </div>`
+    ).join('');
+  }
+
+  function addBuilding() {
+    if (!data || !data.settlement_buildings) return;
+    const buildings = data.settlement_buildings;
+    const names = buildings.map(b => b.name).join('\n');
+    const choice = prompt('Edificio a construir:\n' + names);
+    if (!choice) return;
+    const found = buildings.find(b => b.name.toLowerCase() === choice.toLowerCase());
+    if (!found) { alert('Edificio no encontrado'); return; }
+    settlement.buildings.push({...found});
+    save();
+    renderBuildings();
+    showResult('cof-settlement-result', `🏗️ <strong>${found.name}</strong> construido. ${found.effect}. Costo: ${found.cost} raciones.`, 'success');
+  }
+
+  function removeBuilding(idx) {
+    const b = settlement.buildings[idx];
+    settlement.buildings.splice(idx, 1);
+    save();
+    renderBuildings();
+    showResult('cof-settlement-result', `🗑️ ${b.name} demolido.`, 'info');
+  }
+
+  // === INCURSION 3x3 ===
+  function renderIncursion() {
+    const el = document.getElementById('cof-incursion-grid');
+    if (!el) return;
+    const labels = ['NW','N','NE','W','Centro','E','SW','S','SE'];
+    el.innerHTML = incursionGrid.map((poi, i) => {
+      if (!poi) {
+        return `<div class="cof-inc-cell empty" onclick="CoF.revealIncursionCell(${i})"><span class="cof-inc-label">${labels[i]}</span><span class="cof-inc-unknown">?</span></div>`;
+      }
+      return `<div class="cof-inc-cell revealed" onclick="CoF.showIncursionDetail(${i})"><span class="cof-inc-label">${labels[i]}</span><span class="cof-inc-poi">${poi.substring(0, 30)}${poi.length > 30 ? '...' : ''}</span></div>`;
+    }).join('');
+  }
+
+  function generateIncursion() {
+    if (!data || !data.incursion_pois) return;
+    if (travel.rumors < 10) {
+      showResult('cof-incursion-result', `⚠️ Necesitas 10 Rumors para generar una Incursion. Tienes ${travel.rumors}.`, 'critical');
+      return;
+    }
+    // Consume 10 rumors
+    travel.rumors -= 10;
+    renderTravel();
+    // Pick 9 unique POIs
+    const pool = [...data.incursion_pois];
+    incursionGrid = [];
+    for (let i = 0; i < 9; i++) {
+      const idx = Math.floor(Math.random() * pool.length);
+      incursionGrid.push(pool.splice(idx, 1)[0]);
+    }
+    save();
+    renderIncursion();
+    showResult('cof-incursion-result', '🗺️ Incursion generada! 9 Points of Interest descubiertos. Click en cada celda para ver detalles.', 'success');
+    SFX.click();
+  }
+
+  function revealIncursionCell(idx) {
+    if (incursionGrid[idx]) {
+      showIncursionDetail(idx);
+      return;
+    }
+    showResult('cof-incursion-result', '⚠️ Genera una Incursion primero con el boton.', 'info');
+  }
+
+  function showIncursionDetail(idx) {
+    const poi = incursionGrid[idx];
+    if (!poi) return;
+    const labels = ['Noroeste','Norte','Noreste','Oeste','Centro','Este','Suroeste','Sur','Sureste'];
+    showResult('cof-incursion-result', `📍 <strong>${labels[idx]}</strong><br><br>${poi}`, 'info');
+  }
+
   // === RESULT DISPLAY ===
   function showResult(elId, html, type) {
     const el = document.getElementById(elId);
@@ -563,8 +792,11 @@ const CoF = (() => {
     } catch { data = {}; }
     load();
     renderCharacter();
+    renderCharSelect();
     renderGrid();
     renderTravel();
+    renderSettlement();
+    renderIncursion();
     renderReference();
     showTab('character');
   }
@@ -577,6 +809,9 @@ const CoF = (() => {
     clickCell, addToken, generateTerrain, clearGrid, rollWound,
     pray, apostasy,
     travelMove, scavenge, adjustRumors, resetTravel,
-    toggleRef, searchRef
+    toggleRef, searchRef,
+    switchChar, newChar, deleteChar,
+    updateSettlement, adjustSettlement, addBuilding, removeBuilding,
+    generateIncursion, revealIncursionCell, showIncursionDetail
   };
 })();

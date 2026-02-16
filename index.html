@@ -22,8 +22,15 @@
     <button class="nav-btn" onclick="showSection('npc')">NPCs</button>
     <button class="nav-btn" onclick="showSection('reference')">Ref</button>
     <button class="nav-btn" onclick="showSection('journal')">Diario</button>
+    <button class="nav-btn" onclick="showSection('loot')">Loot</button>
+    <button class="nav-btn" onclick="showSection('spells')">Spells</button>
+    <button class="nav-btn" onclick="showSection('dungeon')">Dungeon</button>
     <button class="nav-btn cof-nav" onclick="showSection('cof')">CoF</button>
   </nav>
+  <div class="ux-controls">
+    <label class="ux-toggle" title="Auto-log al diario"><input type="checkbox" id="autoLogToggle" onchange="Journal.setAutoLog(this.checked)" checked>Auto-log</label>
+    <button class="ux-btn" id="muteBtn" onclick="toggleMute()" title="Silenciar sonidos">&#x1F50A;</button>
+  </div>
   <button class="compact-toggle" id="compactBtn" onclick="toggleCompact()" title="Modo Compacto">&#x25A3;</button>
   <div class="theme-picker">
     <button class="theme-btn" onclick="toggleThemeMenu()">&#x1F3A8;</button>
@@ -72,6 +79,18 @@
     <div class="tool-card tc-red" onclick="showSection('journal')" style="border-color:rgba(251,146,60,0.3);background:linear-gradient(135deg,rgba(201,162,39,0.08),var(--bg3))">
       <span class="tc-icon">&#x1F4D3;</span>
       <div class="tc-info"><h3>Diario de Sesion</h3><p>Log de sesion solo RPG con tracker de hilos y NPCs</p></div>
+    </div>
+    <div class="tool-card tc-gold" onclick="showSection('loot')" style="border-color:rgba(234,179,8,0.3);background:linear-gradient(135deg,rgba(234,179,8,0.08),var(--bg3))">
+      <span class="tc-icon">&#x1F4B0;</span>
+      <div class="tc-info"><h3>Generador de Loot</h3><p>Tesoro individual, hoard, items magicos por tier de CR</p></div>
+    </div>
+    <div class="tool-card tc-purple" onclick="showSection('spells')" style="border-color:rgba(168,85,247,0.3);background:linear-gradient(135deg,rgba(168,85,247,0.08),var(--bg3))">
+      <span class="tc-icon">&#x2728;</span>
+      <div class="tc-info"><h3>Spell Tracker</h3><p>Slots por nivel, concentracion, hechizos preparados D&D 5.5</p></div>
+    </div>
+    <div class="tool-card tc-green" onclick="showSection('dungeon')" style="border-color:rgba(34,197,94,0.3);background:linear-gradient(135deg,rgba(34,197,94,0.08),var(--bg3))">
+      <span class="tc-icon">&#x1F3F0;</span>
+      <div class="tc-info"><h3>Generador de Dungeons</h3><p>Mazmorras procedurales con trampas, monstruos y tesoro</p></div>
     </div>
     <div class="tool-card cof-card" onclick="showSection('cof')">
       <span class="tc-icon">&#x1F9B4;</span>
@@ -393,6 +412,127 @@
   </div>
 </div>
 
+<!-- ====== LOOT GENERATOR ====== -->
+<div class="tool-section" id="sec-loot">
+  <div class="section-head">
+    <span class="sh-icon">&#x1F4B0;</span>
+    <h2>Generador de Loot</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h3>Configuracion</h3></div>
+    <div class="input-row">
+      <div style="flex:1">
+        <label style="font-size:0.8em;color:var(--text2)">Tier de CR</label>
+        <select id="lootTier" style="width:100%">
+          <option value="0-4">CR 0-4 (Bajo)</option>
+          <option value="5-10">CR 5-10 (Medio)</option>
+          <option value="11-16">CR 11-16 (Alto)</option>
+          <option value="17+">CR 17+ (Legendario)</option>
+        </select>
+      </div>
+      <div style="flex:1">
+        <label style="font-size:0.8em;color:var(--text2)">Tabla de Items</label>
+        <select id="lootMagicTable" style="width:100%">
+          <option value="A">Tabla A (Common)</option>
+          <option value="B">Tabla B (Uncommon)</option>
+          <option value="C">Tabla C (Rare)</option>
+          <option value="D">Tabla D (Very Rare)</option>
+          <option value="F">Tabla F (Uncommon+)</option>
+          <option value="G">Tabla G (Rare+)</option>
+          <option value="H">Tabla H (Very Rare+)</option>
+        </select>
+      </div>
+    </div>
+    <div class="input-row" style="flex-wrap:wrap;gap:8px;margin-top:12px">
+      <button class="btn btn-primary" onclick="Loot.quickLoot()">&#x26A1; Quick Loot</button>
+      <button class="btn btn-gold" onclick="Loot.generateIndividual()">&#x1F4B0; Individual</button>
+      <button class="btn btn-secondary" onclick="Loot.generateHoard()">&#x1F3F4;&#x200D;&#x2620;&#xFE0F; Hoard</button>
+      <button class="btn btn-secondary" onclick="Loot.generateMagicItem()">&#x2728; Item Magico</button>
+    </div>
+  </div>
+  <div class="loot-result" id="lootResult" style="display:none"></div>
+</div>
+
+<!-- ====== SPELL TRACKER ====== -->
+<div class="tool-section" id="sec-spells">
+  <div class="section-head">
+    <span class="sh-icon">&#x2728;</span>
+    <h2>Spell Tracker</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h3>Clase y Nivel</h3></div>
+    <div class="input-row">
+      <select id="spellClass" onchange="Spells.setClass()" style="flex:1">
+        <option value="wizard">Wizard</option>
+        <option value="cleric">Cleric</option>
+        <option value="sorcerer">Sorcerer</option>
+        <option value="bard">Bard</option>
+        <option value="druid">Druid</option>
+        <option value="warlock">Warlock</option>
+        <option value="paladin">Paladin</option>
+        <option value="ranger">Ranger</option>
+        <option value="eldritch-knight">Eldritch Knight</option>
+        <option value="arcane-trickster">Arcane Trickster</option>
+      </select>
+      <input type="number" id="spellLevel" value="1" min="1" max="20" style="width:70px" onchange="Spells.setClass()">
+      <button class="btn btn-primary" onclick="Spells.longRest()">&#x1F319; Descanso Largo</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h3>&#x1F52E; Spell Slots</h3></div>
+    <div class="spell-slots-grid" id="spellSlotsGrid"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h3>&#x1F3AF; Concentracion</h3></div>
+    <div id="spellConcentration"></div>
+    <button class="btn btn-small btn-secondary" onclick="Spells.setConcentration()" style="margin-top:8px">Establecer Concentracion</button>
+  </div>
+  <div class="panel">
+    <div class="panel-head">
+      <h3>&#x1F4D6; Hechizos Preparados</h3>
+      <button class="btn btn-small btn-primary" onclick="Spells.addPrepared()">+ Agregar</button>
+    </div>
+    <div class="prepared-list" id="spellPreparedList"></div>
+  </div>
+</div>
+
+<!-- ====== DUNGEON GENERATOR ====== -->
+<div class="tool-section" id="sec-dungeon">
+  <div class="section-head">
+    <span class="sh-icon">&#x1F3F0;</span>
+    <h2>Generador de Dungeons</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h3>Configuracion</h3></div>
+    <div class="input-row">
+      <div style="flex:1">
+        <label style="font-size:0.8em;color:var(--text2)">Tamano</label>
+        <select id="dungeonSize" style="width:100%">
+          <option value="small">Pequena (5 salas)</option>
+          <option value="medium" selected>Mediana (8 salas)</option>
+          <option value="large">Grande (12 salas)</option>
+        </select>
+      </div>
+      <div style="flex:1">
+        <label style="font-size:0.8em;color:var(--text2)">Dificultad</label>
+        <select id="dungeonDifficulty" style="width:100%">
+          <option value="low">Baja (CR 0-4)</option>
+          <option value="mid" selected>Media (CR 5-10)</option>
+          <option value="high">Alta (CR 11+)</option>
+        </select>
+      </div>
+    </div>
+    <div class="input-row" style="margin-top:12px;gap:8px">
+      <button class="btn btn-primary" onclick="Dungeon.generate()">&#x1F3F0; Generar Dungeon</button>
+      <button class="btn btn-secondary" onclick="Dungeon.generateSingleRoom()">&#x1F6AA; Habitacion Individual</button>
+    </div>
+  </div>
+  <div class="dungeon-result" id="dungeonResult" style="display:none"></div>
+</div>
+
 <!-- ====== CHOIR OF FLESH ====== -->
 <div class="tool-section" id="sec-cof">
   <div class="section-head cof-head">
@@ -405,11 +545,23 @@
     <button class="cof-tab-btn" data-tab="combat" onclick="CoF.showTab('combat')">&#x1F5E1;&#xFE0F; Combate</button>
     <button class="cof-tab-btn" data-tab="travel" onclick="CoF.showTab('travel')">&#x1F5FA;&#xFE0F; Viaje</button>
     <button class="cof-tab-btn" data-tab="faith" onclick="CoF.showTab('faith')">&#x271D;&#xFE0F; Fe/Carne</button>
-    <button class="cof-tab-btn" data-tab="ref" onclick="CoF.showTab('ref')">&#x1F4D6; Referencia</button>
+    <button class="cof-tab-btn" data-tab="settlement" onclick="CoF.showTab('settlement')">&#x1F3D8;&#xFE0F; Asent.</button>
+    <button class="cof-tab-btn" data-tab="incursion" onclick="CoF.showTab('incursion')">&#x1F5FA;&#xFE0F; Incursion</button>
+    <button class="cof-tab-btn" data-tab="ref" onclick="CoF.showTab('ref')">&#x1F4D6; Ref</button>
   </div>
 
   <!-- CHARACTER TAB -->
   <div class="cof-tab-content" id="cof-character">
+    <div class="panel cof-panel" style="margin-bottom:12px">
+      <div class="panel-head">
+        <h3>&#x1F465; Personajes</h3>
+        <div style="display:flex;gap:6px">
+          <select id="cof-char-select" onchange="CoF.switchChar(this.value)" style="padding:4px 8px;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:0.85em"></select>
+          <button class="btn btn-small btn-primary" onclick="CoF.newChar()">+ Nuevo</button>
+          <button class="btn btn-small btn-danger" onclick="CoF.deleteChar()">&#x1F5D1;</button>
+        </div>
+      </div>
+    </div>
     <div class="cof-char-grid">
       <div class="panel cof-panel">
         <div class="panel-head"><h3>&#x2694;&#xFE0F; Identidad</h3></div>
@@ -592,6 +744,71 @@
     <div class="cof-result" id="cof-faith-result" style="display:none"></div>
   </div>
 
+  <!-- SETTLEMENT TAB -->
+  <div class="cof-tab-content" id="cof-settlement" style="display:none">
+    <div class="panel cof-panel">
+      <div class="panel-head"><h3>&#x1F3D8;&#xFE0F; Asentamiento</h3></div>
+      <div class="cof-field-row">
+        <div class="cof-field"><label>Nombre</label><input type="text" id="cof-settle-name" onchange="CoF.updateSettlement('name',this.value)" placeholder="Nombre del asentamiento"></div>
+      </div>
+      <div class="cof-settlement-stats">
+        <div class="cof-settle-stat">
+          <span class="label">Poblacion</span>
+          <span class="value" id="cof-settle-pop">5</span>
+          <div style="display:flex;gap:4px;margin-top:4px">
+            <button class="btn btn-small btn-secondary" onclick="CoF.adjustSettlement('population',-1)">-</button>
+            <button class="btn btn-small btn-secondary" onclick="CoF.adjustSettlement('population',1)">+</button>
+          </div>
+        </div>
+        <div class="cof-settle-stat">
+          <span class="label">Tier</span>
+          <span class="value" id="cof-settle-tier">Farmstead</span>
+        </div>
+        <div class="cof-settle-stat">
+          <span class="label">Discontent</span>
+          <span class="value" id="cof-settle-disc">0</span>
+          <div style="display:flex;gap:4px;margin-top:4px">
+            <button class="btn btn-small btn-danger" onclick="CoF.adjustSettlement('discontent',1)">+</button>
+            <button class="btn btn-small btn-secondary" onclick="CoF.adjustSettlement('discontent',-1)">-</button>
+          </div>
+        </div>
+        <div class="cof-settle-stat">
+          <span class="label">Renown</span>
+          <span class="value" id="cof-settle-renown">0</span>
+          <div style="display:flex;gap:4px;margin-top:4px">
+            <button class="btn btn-small btn-secondary" onclick="CoF.adjustSettlement('renown',-1)">-</button>
+            <button class="btn btn-small btn-primary" onclick="CoF.adjustSettlement('renown',1)">+</button>
+          </div>
+        </div>
+        <div class="cof-settle-stat">
+          <span class="label">Upkeep/mes</span>
+          <span class="value" id="cof-settle-upkeep">3</span>
+        </div>
+      </div>
+    </div>
+    <div class="panel cof-panel">
+      <div class="panel-head">
+        <h3>&#x1F3D7;&#xFE0F; Edificios</h3>
+        <button class="btn btn-small btn-primary" onclick="CoF.addBuilding()">+ Construir</button>
+      </div>
+      <div class="cof-building-list" id="cof-building-list"></div>
+    </div>
+    <div class="cof-result" id="cof-settlement-result" style="display:none"></div>
+  </div>
+
+  <!-- INCURSION TAB -->
+  <div class="cof-tab-content" id="cof-incursion" style="display:none">
+    <div class="panel cof-panel">
+      <div class="panel-head">
+        <h3>&#x1F5FA;&#xFE0F; Incursion 3&#xD7;3</h3>
+        <button class="btn btn-small btn-primary" onclick="CoF.generateIncursion()">&#x1F3B2; Generar</button>
+      </div>
+      <p style="color:var(--text2);font-size:0.85em;margin-bottom:12px">Necesitas 10 Rumors para acceder. Grid de 9 Points of Interest unicos.</p>
+      <div class="cof-incursion-grid" id="cof-incursion-grid"></div>
+    </div>
+    <div class="cof-result" id="cof-incursion-result" style="display:none"></div>
+  </div>
+
   <!-- REFERENCE TAB -->
   <div class="cof-tab-content" id="cof-ref" style="display:none">
     <div class="panel">
@@ -606,11 +823,26 @@
 </main>
 
 <footer class="site-footer">
+  <div class="backup-panel">
+    <button class="btn btn-small btn-secondary" onclick="exportBackup()">&#x1F4E5; Exportar Backup</button>
+    <button class="btn btn-small btn-secondary" onclick="document.getElementById('importFile').click()">&#x1F4E4; Importar Backup</button>
+    <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(event)">
+  </div>
   TTRPG Tools &mdash; Herramientas para D&D 5.5 (2024) y Solo RPG &mdash;
   <a href="https://github.com/AkkarinRothen/ttrpg-tools" target="_blank">GitHub</a>
   <button class="pwa-install" id="pwaInstall" onclick="installPWA()">&#x1F4F2; Instalar App</button>
 </footer>
 
+<!-- Mobile Bottom Bar -->
+<div class="mobile-bar" id="mobileBar">
+  <button onclick="Dice.roll('1d20')">&#x1F3B2; d20</button>
+  <button onclick="showSection('oracle')">&#x1F52E;</button>
+  <button onclick="showSection('journal')">&#x1F4D3;</button>
+  <button onclick="showHome()">&#x1F3E0;</button>
+</div>
+
+<script src="js/eventbus.js"></script>
+<script src="js/audio.js"></script>
 <script src="js/dice.js"></script>
 <script src="js/oracle.js"></script>
 <script src="js/tables.js"></script>
@@ -619,10 +851,13 @@
 <script src="js/npc.js"></script>
 <script src="js/reference.js"></script>
 <script src="js/journal.js"></script>
+<script src="js/loot.js"></script>
+<script src="js/spells.js"></script>
+<script src="js/dungeon.js"></script>
 <script src="js/cof.js"></script>
 <script>
 // === NAVIGATION ===
-const sections = ['dice','oracle','tables','initiative','encounter','npc','reference','journal','cof'];
+const sections = ['dice','oracle','tables','initiative','encounter','npc','reference','journal','loot','spells','dungeon','cof'];
 let initialized = {};
 let isCompact = false;
 
@@ -658,6 +893,9 @@ function lazyInit(name) {
   if (name === 'npc') NPC.init();
   if (name === 'reference') Reference.init();
   if (name === 'journal') Journal.init();
+  if (name === 'loot') Loot.init();
+  if (name === 'spells') Spells.init();
+  if (name === 'dungeon') Dungeon.init();
   if (name === 'cof') CoF.init();
 }
 
@@ -709,6 +947,51 @@ document.addEventListener('click', e => {
 // Load saved theme
 const savedTheme = localStorage.getItem('ttrpg_theme');
 if (savedTheme) setTheme(savedTheme);
+
+// === MUTE TOGGLE ===
+function toggleMute() {
+  const muted = SFX.toggleMute();
+  document.getElementById('muteBtn').textContent = muted ? '\u{1F507}' : '\u{1F50A}';
+}
+// Init mute button state
+if (SFX.isMuted()) document.getElementById('muteBtn').textContent = '\u{1F507}';
+// Init auto-log toggle
+document.getElementById('autoLogToggle').checked = localStorage.getItem('ttrpg_autolog') !== '0';
+
+// === BACKUP ===
+function exportBackup() {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith('ttrpg_') || key.startsWith('cof_')) {
+      data[key] = localStorage.getItem(key);
+    }
+  }
+  const backup = { version: 3, date: new Date().toISOString(), data };
+  const blob = new Blob([JSON.stringify(backup, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `ttrpg-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+
+function importBackup(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const backup = JSON.parse(e.target.result);
+      if (!backup.data) { alert('Archivo de backup invalido'); return; }
+      if (!confirm(`Importar backup del ${new Date(backup.date).toLocaleDateString()}? Esto sobreescribira los datos actuales.`)) return;
+      Object.entries(backup.data).forEach(([k, v]) => localStorage.setItem(k, v));
+      alert('Backup importado. Recargando...');
+      location.reload();
+    } catch { alert('Error al leer el archivo de backup'); }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
 
 // === PWA ===
 let deferredPrompt = null;

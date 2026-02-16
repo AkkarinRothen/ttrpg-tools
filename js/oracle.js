@@ -74,6 +74,8 @@ const Oracle = (() => {
 
     resEl.style.borderColor = isYes ? 'var(--green)' : 'var(--accent)';
     resEl.style.animation = 'none'; resEl.offsetHeight; resEl.style.animation = 'fadeIn 0.3s';
+    SFX.click();
+    Bus.emit('oracle:answered', { answer, roll, threshold: adjusted, chaos, event: hasEvent ? evEl.textContent : null });
   }
 
   function rollMeaning() {
@@ -83,6 +85,8 @@ const Oracle = (() => {
     document.getElementById('meaningWords').textContent = `${action} + ${subject}`;
     const el = document.getElementById('meaningResult');
     el.style.animation = 'none'; el.offsetHeight; el.style.animation = 'fadeIn 0.3s';
+    SFX.click();
+    Bus.emit('oracle:meaning', { action, subject });
   }
 
   function sceneCheck() {
