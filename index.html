@@ -22,6 +22,7 @@
     <button class="nav-btn" onclick="showSection('npc')">NPCs</button>
     <button class="nav-btn" onclick="showSection('reference')">Ref</button>
     <button class="nav-btn" onclick="showSection('journal')">Diario</button>
+    <button class="nav-btn cof-nav" onclick="showSection('cof')">CoF</button>
   </nav>
   <button class="compact-toggle" id="compactBtn" onclick="toggleCompact()" title="Modo Compacto">&#x25A3;</button>
   <div class="theme-picker">
@@ -71,6 +72,10 @@
     <div class="tool-card tc-red" onclick="showSection('journal')" style="border-color:rgba(251,146,60,0.3);background:linear-gradient(135deg,rgba(201,162,39,0.08),var(--bg3))">
       <span class="tc-icon">&#x1F4D3;</span>
       <div class="tc-info"><h3>Diario de Sesion</h3><p>Log de sesion solo RPG con tracker de hilos y NPCs</p></div>
+    </div>
+    <div class="tool-card cof-card" onclick="showSection('cof')">
+      <span class="tc-icon">&#x1F9B4;</span>
+      <div class="tc-info"><h3>Choir of Flesh</h3><p>Character tracker, grid 5&#xD7;5, oraciones, viaje y referencia</p></div>
     </div>
   </div>
 </div>
@@ -388,6 +393,216 @@
   </div>
 </div>
 
+<!-- ====== CHOIR OF FLESH ====== -->
+<div class="tool-section" id="sec-cof">
+  <div class="section-head cof-head">
+    <span class="sh-icon">&#x1F9B4;</span>
+    <h2>Choir of Flesh</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="cof-tabs">
+    <button class="cof-tab-btn active" data-tab="character" onclick="CoF.showTab('character')">&#x2694;&#xFE0F; Personaje</button>
+    <button class="cof-tab-btn" data-tab="combat" onclick="CoF.showTab('combat')">&#x1F5E1;&#xFE0F; Combate</button>
+    <button class="cof-tab-btn" data-tab="travel" onclick="CoF.showTab('travel')">&#x1F5FA;&#xFE0F; Viaje</button>
+    <button class="cof-tab-btn" data-tab="faith" onclick="CoF.showTab('faith')">&#x271D;&#xFE0F; Fe/Carne</button>
+    <button class="cof-tab-btn" data-tab="ref" onclick="CoF.showTab('ref')">&#x1F4D6; Referencia</button>
+  </div>
+
+  <!-- CHARACTER TAB -->
+  <div class="cof-tab-content" id="cof-character">
+    <div class="cof-char-grid">
+      <div class="panel cof-panel">
+        <div class="panel-head"><h3>&#x2694;&#xFE0F; Identidad</h3></div>
+        <div class="cof-field-row">
+          <div class="cof-field"><label>Nombre</label><input type="text" id="cof-name" onchange="CoF.updateField('name',this.value)" placeholder="Nombre del personaje"></div>
+          <div class="cof-field"><label>Ocupaci&#xF3;n</label><input type="text" id="cof-occupation" onchange="CoF.updateField('occupation',this.value)" placeholder="Soldado, Herrero..."></div>
+        </div>
+        <div class="cof-field-row">
+          <div class="cof-field"><label>Pecado</label><input type="text" id="cof-sin" onchange="CoF.updateField('sin',this.value)" placeholder="Ira, Codicia..."></div>
+          <div class="cof-field"><label>Fragmento</label><input type="text" id="cof-shard" onchange="CoF.updateField('shard',this.value)" placeholder="Reliquia del pasado"></div>
+          <div class="cof-field"><label>Perdici&#xF3;n</label><input type="text" id="cof-doom" onchange="CoF.updateField('doom',this.value)" placeholder="Tu maldici&#xF3;n"></div>
+        </div>
+      </div>
+
+      <div class="panel cof-panel">
+        <div class="panel-head"><h3>&#x1F4CA; Stats</h3></div>
+        <div class="cof-stats-grid">
+          <div class="cof-stat" onclick="CoF.rollStat('str')"><label>STR</label><input type="number" id="cof-stat-str" min="1" max="20" onchange="CoF.updateStat('str',this.value)" onclick="event.stopPropagation()"></div>
+          <div class="cof-stat" onclick="CoF.rollStat('dex')"><label>DEX</label><input type="number" id="cof-stat-dex" min="1" max="20" onchange="CoF.updateStat('dex',this.value)" onclick="event.stopPropagation()"></div>
+          <div class="cof-stat" onclick="CoF.rollStat('con')"><label>CON</label><input type="number" id="cof-stat-con" min="1" max="20" onchange="CoF.updateStat('con',this.value)" onclick="event.stopPropagation()"></div>
+          <div class="cof-stat" onclick="CoF.rollStat('int')"><label>INT</label><input type="number" id="cof-stat-int" min="1" max="20" onchange="CoF.updateStat('int',this.value)" onclick="event.stopPropagation()"></div>
+          <div class="cof-stat" onclick="CoF.rollStat('wil')"><label>WIL</label><input type="number" id="cof-stat-wil" min="1" max="20" onchange="CoF.updateStat('wil',this.value)" onclick="event.stopPropagation()"></div>
+          <div class="cof-stat" onclick="CoF.rollStat('pre')"><label>PRE</label><input type="number" id="cof-stat-pre" min="1" max="20" onchange="CoF.updateStat('pre',this.value)" onclick="event.stopPropagation()"></div>
+        </div>
+        <div class="cof-derived" id="cof-derived"></div>
+        <small style="color:var(--text3);display:block;text-align:center;margin-top:4px">Click en un stat para tirar check</small>
+      </div>
+
+      <div class="panel cof-panel">
+        <div class="panel-head"><h3>&#x1F480; Humanity &amp; Anguish</h3></div>
+        <div class="cof-tracker">
+          <label>Humanity</label>
+          <div class="cof-hum-bar-wrap">
+            <div class="cof-hum-bar"><div class="cof-hum-fill" id="cof-humanity-bar"></div></div>
+            <span class="cof-hum-val" id="cof-humanity-val">20</span>
+          </div>
+          <div class="cof-tracker-btns">
+            <button class="btn btn-small btn-danger" onclick="CoF.adjustHumanity(-1)">-1</button>
+            <button class="btn btn-small btn-secondary" onclick="CoF.adjustHumanity(1)">+1</button>
+          </div>
+        </div>
+        <div class="cof-tracker" style="margin-top:12px">
+          <label>Anguish</label>
+          <div class="cof-anguish-display">
+            <span class="cof-anguish-num" id="cof-anguish-val">0</span>
+            <div class="cof-tracker-btns">
+              <button class="btn btn-small btn-danger" onclick="CoF.adjustAnguish(1)">+1</button>
+              <button class="btn btn-small btn-secondary" onclick="CoF.adjustAnguish(-1)">-1</button>
+              <button class="btn btn-small btn-primary" onclick="CoF.anguishCheck()" title="d20 vs Anguish actual">&#x1F3B2; Check</button>
+            </div>
+          </div>
+        </div>
+        <div class="cof-tracker" style="margin-top:12px">
+          <label>Trauma</label>
+          <div class="cof-anguish-display">
+            <span class="cof-anguish-num" id="cof-trauma-val">0</span>
+            <div class="cof-tracker-btns">
+              <button class="btn btn-small btn-danger" onclick="CoF.adjustTrauma(1)">+1</button>
+              <button class="btn btn-small btn-secondary" onclick="CoF.adjustTrauma(-1)">-1</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel cof-panel">
+        <div class="panel-head"><h3>&#x1FA79; Heridas</h3></div>
+        <div class="cof-injuries">
+          <div>
+            <label>Minor (0/8)</label>
+            <div class="cof-pip-row" id="cof-minor-pips"></div>
+          </div>
+          <div>
+            <label>Major (0/4)</label>
+            <div class="cof-pip-row" id="cof-major-pips"></div>
+          </div>
+          <div class="cof-death-alert" id="cof-death-alert" style="display:none">&#x1F480; MUERTE — El personaje ha ca&#xED;do</div>
+        </div>
+        <div class="cof-postcombat">
+          <span>Post-combate:</span>
+          <button class="btn btn-small btn-primary" onclick="CoF.postCombatCheck(true)">&#x1FA79; Con suministros (INT)</button>
+          <button class="btn btn-small btn-secondary" onclick="CoF.postCombatCheck(false)">&#x1F9B4; Sin suministros (CON)</button>
+        </div>
+      </div>
+
+      <div class="panel cof-panel">
+        <div class="panel-head">
+          <h3>&#x1F3B2; Dados de Uso</h3>
+          <button class="btn btn-small btn-primary" onclick="CoF.addResource()">+ Recurso</button>
+        </div>
+        <div id="cof-usage-list"></div>
+      </div>
+    </div>
+    <div class="cof-result" id="cof-char-result" style="display:none"></div>
+  </div>
+
+  <!-- COMBAT TAB -->
+  <div class="cof-tab-content" id="cof-combat" style="display:none">
+    <div class="panel cof-panel">
+      <div class="panel-head"><h3>&#x1F5E1;&#xFE0F; Grid de Combate 5&#xD7;5</h3></div>
+      <div class="cof-grid-controls">
+        <button class="btn btn-small btn-primary" onclick="CoF.addToken('player')">&#x2694;&#xFE0F; Jugador</button>
+        <button class="btn btn-small btn-secondary" onclick="CoF.addToken('ally')">&#x1F6E1;&#xFE0F; Aliado</button>
+        <button class="btn btn-small btn-danger" onclick="CoF.addToken('enemy')">&#x1F480; Enemigo</button>
+        <button class="btn btn-small btn-gold" onclick="CoF.generateTerrain()">&#x1F5FA;&#xFE0F; Terreno</button>
+        <button class="btn btn-small btn-secondary" onclick="if(confirm('Limpiar grid?'))CoF.clearGrid()">&#x1F5D1; Limpiar</button>
+      </div>
+      <div class="cof-grid" id="cof-grid"></div>
+    </div>
+    <div class="panel cof-panel">
+      <div class="panel-head"><h3>&#x1FA79; Tirar Herida</h3></div>
+      <div class="input-row">
+        <select id="cof-wound-type">
+          <option value="blunt">Contundente</option>
+          <option value="slash">Cortante</option>
+          <option value="pierce">Perforante</option>
+          <option value="fire">Fuego</option>
+          <option value="divine">Divino</option>
+        </select>
+        <button class="btn btn-small btn-secondary" onclick="CoF.rollWound('minor')">Minor</button>
+        <button class="btn btn-small btn-danger" onclick="CoF.rollWound('major')">Major</button>
+      </div>
+    </div>
+    <div class="cof-result" id="cof-combat-result" style="display:none"></div>
+  </div>
+
+  <!-- TRAVEL TAB -->
+  <div class="cof-tab-content" id="cof-travel" style="display:none">
+    <div class="panel cof-panel">
+      <div class="panel-head"><h3>&#x1F5FA;&#xFE0F; Viaje — The Endless Travail</h3></div>
+      <div class="cof-travel-stats">
+        <div class="cof-travel-stat"><span class="label">D&#xED;a</span><span class="value" id="cof-travel-day">1</span></div>
+        <div class="cof-travel-stat"><span class="label">Turno</span><span class="value" id="cof-travel-turn">0/4</span></div>
+        <div class="cof-travel-stat"><span class="label">Raciones</span><span class="value" id="cof-travel-rations">0</span></div>
+        <div class="cof-travel-stat">
+          <span class="label">Rumors</span>
+          <span class="value" id="cof-travel-rumors">0</span>
+          <div style="display:flex;gap:4px;margin-top:4px">
+            <button class="btn btn-small btn-secondary" onclick="CoF.adjustRumors(-1)" style="padding:2px 6px">-</button>
+            <button class="btn btn-small btn-secondary" onclick="CoF.adjustRumors(1)" style="padding:2px 6px">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="cof-travel-actions">
+        <button class="btn btn-primary" onclick="CoF.travelMove()">&#x1F9ED; Mover (1 turno)</button>
+        <button class="btn btn-secondary" onclick="CoF.scavenge()">&#x1F50D; Scavenging</button>
+        <button class="btn btn-small btn-secondary" onclick="if(confirm('Reiniciar viaje?'))CoF.resetTravel()">&#x1F504; Reset</button>
+      </div>
+      <div style="margin-top:10px;padding:8px;background:var(--bg2);border-radius:6px;font-size:0.8em;color:var(--text3)">
+        <strong>Reglas:</strong> 4 turnos/d&#xED;a. Al mover: d10 (1-5 = encuentro). 10 Rumors = acceso a Incursion. 1 raci&#xF3;n/d&#xED;a.
+      </div>
+    </div>
+    <div class="cof-result" id="cof-travel-result" style="display:none"></div>
+  </div>
+
+  <!-- FAITH TAB -->
+  <div class="cof-tab-content" id="cof-faith" style="display:none">
+    <div class="panel cof-panel">
+      <div class="panel-head"><h3>&#x271D;&#xFE0F; Oraciones (The Celestial Choir)</h3></div>
+      <p style="color:var(--text2);font-size:0.85em;margin-bottom:12px">Invoca el poder del Coro Celestial. d100 + bonus de tier. &#x2265;100 = Ascensi&#xF3;n (muerte).</p>
+      <div class="cof-prayer-grid">
+        <button class="btn cof-prayer-btn" onclick="CoF.pray('minor')">
+          <strong>Menor</strong><span>+0 | Reroll gratis</span><small>Cuesta 1 Anguish</small>
+        </button>
+        <button class="btn cof-prayer-btn" onclick="CoF.pray('standard')">
+          <strong>Est&#xE1;ndar</strong><span>+10 | Milagro moderado</span><small>Curar minor, da&#xF1;ar</small>
+        </button>
+        <button class="btn cof-prayer-btn major" onclick="CoF.pray('major')">
+          <strong>Mayor</strong><span>+25 | Milagro poderoso</span><small>Curar major, devastar</small>
+        </button>
+        <button class="btn cof-prayer-btn apocalyptic" onclick="CoF.pray('apocalyptic')">
+          <strong>Apocal&#xED;ptica</strong><span>+50 | Poder absoluto</span><small>&#x26A0; Riesgo extremo</small>
+        </button>
+      </div>
+    </div>
+    <div class="panel cof-panel">
+      <div class="panel-head"><h3>&#x1FAC0; Actos de Apostas&#xED;a (The Flesh That Feeds)</h3></div>
+      <p style="color:var(--text2);font-size:0.85em;margin-bottom:12px">Consume una Semilla de Carne para obtener una mutaci&#xF3;n permanente. Cuesta Humanity.</p>
+      <button class="btn btn-danger" onclick="CoF.apostasy()" style="width:100%">&#x1FAC0; Consumir Semilla de Carne</button>
+    </div>
+    <div class="cof-result" id="cof-faith-result" style="display:none"></div>
+  </div>
+
+  <!-- REFERENCE TAB -->
+  <div class="cof-tab-content" id="cof-ref" style="display:none">
+    <div class="panel">
+      <div class="input-row">
+        <input type="text" id="cof-ref-search" placeholder="Buscar regla, mec&#xE1;nica..." style="flex:1" oninput="CoF.searchRef()">
+      </div>
+    </div>
+    <div id="cof-ref-content"></div>
+  </div>
+</div>
+
 </main>
 
 <footer class="site-footer">
@@ -404,9 +619,10 @@
 <script src="js/npc.js"></script>
 <script src="js/reference.js"></script>
 <script src="js/journal.js"></script>
+<script src="js/cof.js"></script>
 <script>
 // === NAVIGATION ===
-const sections = ['dice','oracle','tables','initiative','encounter','npc','reference','journal'];
+const sections = ['dice','oracle','tables','initiative','encounter','npc','reference','journal','cof'];
 let initialized = {};
 let isCompact = false;
 
@@ -442,6 +658,7 @@ function lazyInit(name) {
   if (name === 'npc') NPC.init();
   if (name === 'reference') Reference.init();
   if (name === 'journal') Journal.init();
+  if (name === 'cof') CoF.init();
 }
 
 function updateNav(active) {

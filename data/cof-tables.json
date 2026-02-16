@@ -1,0 +1,260 @@
+{
+  "prayer_tiers": {
+    "minor": {"name": "Menor", "bonus": 0, "desc": "Reroll gratis en cualquier check. Cuesta 1 Anguish."},
+    "standard": {"name": "Estándar", "bonus": 10, "desc": "Milagro moderado: curar heridas menores, dañar enemigos cercanos."},
+    "major": {"name": "Mayor", "bonus": 25, "desc": "Milagro poderoso: curar herida mayor, devastar un área."},
+    "apocalyptic": {"name": "Apocalíptica", "bonus": 50, "desc": "Poder divino absoluto. Riesgo extremo de Ascensión."}
+  },
+  "terrain_features": [
+    {"name": "Ruinas", "icon": "🏚️", "effect": "Cobertura parcial (+2 Defense)"},
+    {"name": "Altar profanado", "icon": "⛪", "effect": "Oraciones tienen +5 bonus, +5 riesgo Ascensión"},
+    {"name": "Fosa abierta", "icon": "🕳️", "effect": "Terreno difícil. Caer: 1 Minor injury"},
+    {"name": "Muro derruido", "icon": "🧱", "effect": "Bloquea LOS y movimiento"},
+    {"name": "Bosque muerto", "icon": "🌳", "effect": "Terreno difícil. Cobertura parcial"},
+    {"name": "Fuego sagrado", "icon": "🔥", "effect": "1 Minor injury (fuego) al entrar"},
+    {"name": "Charco de carne", "icon": "🫀", "effect": "Terreno difícil. Check WIL TN10 o +1 Anguish"},
+    {"name": "Estatua rota", "icon": "🗿", "effect": "Cobertura total desde un lado"},
+    {"name": "Grietas", "icon": "⚡", "effect": "Check DEX TN10 al cruzar o caer prone"},
+    {"name": "Zarzas retorcidas", "icon": "🌿", "effect": "Terreno difícil. 1 Minor injury al forzar paso"},
+    {"name": "Huesos apilados", "icon": "🦴", "effect": "Terreno difícil. Ruido alerta enemigos"},
+    {"name": "Niebla espesa", "icon": "🌫️", "effect": "LOS reducido a 2 casillas"},
+    {"name": "Sangre hirviente", "icon": "🩸", "effect": "1 Minor injury (fuego) al entrar. Terreno difícil"},
+    {"name": "Pilar fracturado", "icon": "🏛️", "effect": "Cobertura parcial. Puede derrumbarse"},
+    {"name": "Cadáveres", "icon": "💀", "effect": "Check WIL TN10 o +1 Anguish"}
+  ],
+  "breakdowns": [
+    {"roll": "1-2", "name": "Paranoia", "effect": "Desventaja en todos los checks sociales. Duración: 1d4 días."},
+    {"roll": "3-4", "name": "Alucinaciones", "effect": "El GM/oráculo introduce elementos falsos. Desventaja en Perception. 1d4 días."},
+    {"roll": "5-6", "name": "Catatonia", "effect": "Pierdes 1 turno completo. Después, desventaja en Initiative por 1d4 encuentros."},
+    {"roll": "7-8", "name": "Ira ciega", "effect": "Debes atacar al objetivo más cercano (aliado o enemigo) por 1d4 turnos."},
+    {"roll": "9-10", "name": "Llanto incontrolable", "effect": "No puedes tomar acciones que requieran concentración. 1d4 turnos."},
+    {"roll": "11-12", "name": "Flashback traumático", "effect": "Revives un trauma pasado. Desventaja en todo. 1d4 turnos."},
+    {"roll": "13-14", "name": "Entumecimiento", "effect": "No sientes dolor: ignoras 2 Minor injuries pero no puedes detectar emboscadas. 1d4 días."},
+    {"roll": "15-16", "name": "Fuga disociativa", "effect": "Huyes automáticamente del combate. Check WIL TN15 para detenerte."},
+    {"roll": "17-18", "name": "Susurros del Coro", "effect": "Escuchas la melodía celestial. +1 Anguish adicional. Desventaja vs efectos del Coro."},
+    {"roll": "19-20", "name": "Hambre de la Carne", "effect": "Sientes el tirón de la Carne. -1 Humanity. Ventaja en checks físicos por 1d4 turnos."}
+  ],
+  "wounds_minor": {
+    "blunt": [
+      "Contusión en el torso — dolor al respirar",
+      "Golpe en el brazo — desventaja en próximo ataque",
+      "Impacto en la pierna — -1 movimiento este turno",
+      "Cabezazo — aturdido brevemente",
+      "Costilla magullada — dolor al esforzarse",
+      "Golpe en el hombro — suelta objeto en esa mano (50%)"
+    ],
+    "slash": [
+      "Corte superficial en el brazo — sangra levemente",
+      "Tajo en el costado — dolor agudo",
+      "Corte en la mejilla — sangre en los ojos (-1 Perception)",
+      "Herida en la mano — desventaja en próxima acción manual",
+      "Corte en la pierna — -1 movimiento",
+      "Rasguño profundo en el torso — cicatriz"
+    ],
+    "pierce": [
+      "Pinchazo en el hombro — dolor al levantar",
+      "Herida punzante en el muslo — cojea",
+      "Flecha roza el costado — sangrado leve",
+      "Perforación superficial en el brazo — entumecimiento",
+      "Punta de lanza en el costado — dolor al girar",
+      "Clavo en el pie — -1 movimiento"
+    ],
+    "fire": [
+      "Quemadura en el antebrazo — piel enrojecida",
+      "Chamuscadura en la cara — dolor intenso",
+      "Ropa prendida brevemente — pánico momentáneo",
+      "Quemadura en la mano — desventaja en acciones manuales",
+      "Humo en los pulmones — tos, desventaja en Stealth",
+      "Ampollas en los dedos — dolor al agarrar"
+    ],
+    "divine": [
+      "Luz cegadora — desventaja en ataques por 1 turno",
+      "Resonancia celestial — +1 Anguish",
+      "Marca ardiente en la piel — dolor espiritual",
+      "Visión fugaz del Coro — check WIL TN10 o paralizado 1 turno",
+      "Quemadura santa — la herida brilla, no para de doler",
+      "Eco de campanas — desventaja en Perception auditiva"
+    ]
+  },
+  "wounds_major": {
+    "blunt": [
+      "Fractura en el brazo — no puede usar esa extremidad hasta sanar",
+      "Conmoción cerebral — desventaja en INT checks. +1 Trauma",
+      "Costillas rotas — desventaja en checks físicos. Necesita descanso prolongado",
+      "Rodilla destrozada — velocidad reducida a 1. +1 Trauma"
+    ],
+    "slash": [
+      "Tendón cortado — pierde uso del brazo/pierna afectada. +1 Trauma",
+      "Herida profunda en el abdomen — sangrado grave. Sin tratamiento, otra Major en 1d4 horas",
+      "Desfiguración facial — -2 PRE permanente. +2 Anguish",
+      "Dedo/oreja cercenados — pérdida permanente. +1 Trauma"
+    ],
+    "pierce": [
+      "Perforación de órgano — sangrado interno. Sin tratamiento, muerte en 1d6 horas",
+      "Flecha/lanza clavada — debe extraerse (check INT TN15). +1 Trauma",
+      "Ojo perforado — pierde un ojo permanentemente. Desventaja en Perception visual",
+      "Pulmón perforado — desventaja en checks físicos. Sin tratamiento, empeora"
+    ],
+    "fire": [
+      "Quemaduras graves — dolor constante. Desventaja en concentración. +2 Trauma",
+      "Miembro carbonizado — pierde uso de extremidad. +2 Anguish",
+      "Rostro quemado — -2 PRE permanente. +1 Trauma, +2 Anguish",
+      "Quemaduras internas — desventaja en CON checks. Recuperación muy lenta"
+    ],
+    "divine": [
+      "Marca del Coro — grabada en la carne. -2 Humanity permanente. Los ángeles te reconocen",
+      "Alma fracturada — -1 WIL permanente. +3 Anguish. Oraciones cuestan doble",
+      "Ceguera espiritual — no puedes usar Prayers por 1d6 días. +2 Trauma",
+      "Éxtasis forzado — pierdes 1 turno en trance. -1 Humanity. Los aliados te ven diferente"
+    ]
+  },
+  "mutations": [
+    {"name": "Garras de hueso", "cost": 2, "effect": "Tus dedos se fusionan en garras. +2 daño cuerpo a cuerpo. No puedes manipular objetos delicados."},
+    {"name": "Piel endurecida", "cost": 1, "effect": "Tu piel se vuelve correosa y gris. +1 Defense Rating. -1 DEX."},
+    {"name": "Ojo adicional", "cost": 1, "effect": "Un tercer ojo crece en tu frente. Ventaja en Perception. Los NPCs te temen."},
+    {"name": "Brazo tentáculo", "cost": 3, "effect": "Tu brazo se transforma. Alcance +1 casilla. Puede agarrar. No puede usar armas normales."},
+    {"name": "Regeneración lenta", "cost": 2, "effect": "Recuperas 1 Minor injury cada 8 horas. Tu carne se mueve visiblemente."},
+    {"name": "Mandíbula expandida", "cost": 1, "effect": "Puedes morder como ataque (d6 daño). No puedes hablar claramente. -2 PRE."},
+    {"name": "Visión en la oscuridad", "cost": 1, "effect": "Ves en oscuridad total. Tus ojos brillan en rojo. -2 a checks en luz brillante."},
+    {"name": "Espinas dorsales", "cost": 2, "effect": "Espinas de hueso brotan de tu espalda. Los que te golpean cuerpo a cuerpo sufren 1 Minor. No puedes llevar armadura."},
+    {"name": "Sangre ácida", "cost": 2, "effect": "Tu sangre quema. Al recibir herida, atacante cercano recibe 1 Minor (fire). Tu ropa se deteriora."},
+    {"name": "Masa muscular grotesca", "cost": 3, "effect": "+4 STR, -2 DEX, -2 PRE. Tu cuerpo se deforma visiblemente."}
+  ],
+  "scavenging": [
+    {"roll": "1-2", "result": "Nada útil — escombros y huesos"},
+    {"roll": "3-4", "result": "1d4 raciones (carne seca, raíces, agua estancada)"},
+    {"roll": "5-6", "result": "Suministros médicos básicos (vendas, hierbas) — 1 uso"},
+    {"roll": "7-8", "result": "Arma improvisada o herramienta rota"},
+    {"roll": "9-10", "result": "2d4 raciones + objeto útil (cuerda, antorcha, etc.)"},
+    {"roll": "11-12", "result": "Diario/mapa con pista sobre un Point of Interest cercano (+1 Rumor)"},
+    {"roll": "13-14", "result": "Reliquia menor — puede venderse o tiene efecto narrativo"},
+    {"roll": "15-16", "result": "Suministros médicos completos (3 usos) + 1d6 raciones"},
+    {"roll": "17-18", "result": "Arma en buen estado o pieza de armadura"},
+    {"roll": "19-20", "result": "Semilla de Carne (Seed of Flesh) — puede consumirse para mutación"}
+  ],
+  "travel_encounters": {
+    "1": "Emboscada — criaturas hostiles bloquean el camino",
+    "2": "Zona corrupta — la Carne se extiende. Check WIL TN12 o +1 Anguish",
+    "3": "Supervivientes — grupo de 1d4 personas. Pueden unirse, comerciar o ser hostiles",
+    "4": "Ruinas interesantes — posibilidad de scavenging (check INT TN10)",
+    "5": "Señales del Coro — melodía distante. Check WIL TN10 o -1 Humanity",
+    "6-7": "Camino tranquilo — sin eventos",
+    "8": "Landmark — punto de referencia notable. +1 Rumor si se investiga",
+    "9": "Refugio temporal — oportunidad de descanso corto",
+    "10": "Hallazgo afortunado — tira en tabla de Scavenging con ventaja"
+  },
+  "reference": {
+    "sections": [
+      {
+        "id": "checks",
+        "title": "Checks y Target Numbers",
+        "icon": "🎯",
+        "items": [
+          {"name": "Check básico", "desc": "Tira d20 + modificador de stat + mastery. Compara vs Target Number (TN)."},
+          {"name": "TN 10 — Fácil", "desc": "Tareas simples que requieren competencia mínima."},
+          {"name": "TN 12 — Moderado", "desc": "El estándar para la mayoría de checks."},
+          {"name": "TN 15 — Difícil", "desc": "Tareas que requieren habilidad real o condiciones adversas."},
+          {"name": "TN 18 — Muy Difícil", "desc": "Solo los más competentes tienen oportunidad."},
+          {"name": "TN 20+ — Extremo", "desc": "Hazañas al límite de lo posible."},
+          {"name": "Ventaja/Desventaja", "desc": "Tira 2d20, toma el mayor (ventaja) o menor (desventaja)."},
+          {"name": "Nat 20", "desc": "Éxito crítico — doble efecto o resultado excepcional."},
+          {"name": "Nat 1", "desc": "Fracaso crítico — consecuencia adicional negativa."}
+        ]
+      },
+      {
+        "id": "combat",
+        "title": "Acciones en Combate",
+        "icon": "⚔️",
+        "items": [
+          {"name": "Atacar", "desc": "d20 + STR/DEX mod + mastery vs TN del enemigo. Éxito = infliges injuries según arma."},
+          {"name": "Defender", "desc": "Player-facing: d20 + DEX mod + Defense Rating vs Attack del enemigo. Fallo = recibes injuries."},
+          {"name": "Grapple (Agarrar)", "desc": "d20 + STR vs TN. Éxito: objetivo no puede moverse. Ambos pierden acción de movimiento."},
+          {"name": "Push (Empujar)", "desc": "d20 + STR vs TN. Éxito: mueves al objetivo 1 casilla."},
+          {"name": "Trip (Derribar)", "desc": "d20 + STR/DEX vs TN. Éxito: objetivo cae prone."},
+          {"name": "Multi-target", "desc": "Ataca a múltiples objetivos adyacentes con desventaja."},
+          {"name": "Usar objeto", "desc": "Usar item, consumible, o equipo especial."},
+          {"name": "Movimiento", "desc": "Velocidad base: 2 casillas. Terreno difícil cuesta doble."},
+          {"name": "Iniciativa", "desc": "d20 + DEX mod. Nat 1: pierdes turno. Nat 20: ventaja en primer check."}
+        ]
+      },
+      {
+        "id": "injuries",
+        "title": "Sistema de Heridas",
+        "icon": "🩹",
+        "items": [
+          {"name": "Minor Injury", "desc": "Herida leve. Efectos temporales según tipo de daño. Se curan post-combate (con check)."},
+          {"name": "Major Injury", "desc": "Herida grave. Efectos duraderos, requieren tratamiento. Pueden ser permanentes."},
+          {"name": "Muerte", "desc": "4 Major injuries O 8 Minor injuries = muerte del personaje."},
+          {"name": "Post-combate", "desc": "Todas las Minor desaparecen EXCEPTO si fallas check INT (con suministros) o CON (sin). Fallo = 1 Minor se convierte en Major."},
+          {"name": "Crítico", "desc": "Nat 20 en ataque = doble injuries infligidas."},
+          {"name": "Tipos de daño", "desc": "Blunt, Slash, Pierce, Fire, Divine. Cada tipo tiene tablas de heridas diferentes."}
+        ]
+      },
+      {
+        "id": "humanity",
+        "title": "Humanity y Anguish",
+        "icon": "💀",
+        "items": [
+          {"name": "Humanity (0-20)", "desc": "Empieza en 20. Baja por Blessings of Flesh, eventos horribles. A 0 = te conviertes en Penitent o Unmade."},
+          {"name": "Anguish (0+)", "desc": "Empieza en 0. Sube por horror, fracasos, lo sobrenatural."},
+          {"name": "Anguish Check", "desc": "Al ganar Anguish: d20. Si resultado ≤ Anguish actual = Breakdown."},
+          {"name": "Breakdown", "desc": "Crisis mental: paranoia, alucinaciones, catatonia, ira, fuga, susurros... Tira en tabla de Breakdowns."},
+          {"name": "Trauma", "desc": "Se acumula por Major injuries y eventos. Penalizaciones progresivas permanentes."}
+        ]
+      },
+      {
+        "id": "supernatural",
+        "title": "Oraciones y Apostasía",
+        "icon": "✝️",
+        "items": [
+          {"name": "Oración (Prayer)", "desc": "Invoca el poder del Coro. d100 + bonus de tier. 100+ = Ascensión (muerte)."},
+          {"name": "Tier Menor (+0)", "desc": "Reroll gratis en cualquier check. Cuesta 1 Anguish."},
+          {"name": "Tier Estándar (+10)", "desc": "Milagro moderado: curar Minor, dañar enemigos."},
+          {"name": "Tier Mayor (+25)", "desc": "Milagro poderoso: curar Major, devastar área."},
+          {"name": "Tier Apocalíptica (+50)", "desc": "Poder divino absoluto. Riesgo extremo."},
+          {"name": "Actos de Apostasía", "desc": "Consume Seed of Flesh = mutación permanente. Cuesta Humanity. Beneficio + costo grotesco."},
+          {"name": "Ascensión", "desc": "Si d100 + bonus ≥ 100: tu alma es absorbida por el Coro. El personaje se pierde para siempre."}
+        ]
+      },
+      {
+        "id": "exploration",
+        "title": "Exploración y Viaje",
+        "icon": "🗺️",
+        "items": [
+          {"name": "Point-crawl", "desc": "El mapa es una red de puntos conectados (como un mapa de metro). Moverse = 1 turno de exploración."},
+          {"name": "Turnos por día", "desc": "4 turnos de exploración por día (modificable por feats)."},
+          {"name": "Encuentro de viaje", "desc": "Al moverse: d10. 1-5 = evento/encuentro. 6+ = viaje tranquilo."},
+          {"name": "Raciones", "desc": "Sirven como comida Y moneda. Comer: 1 ración/día. Settlement upkeep requiere más."},
+          {"name": "Scavenging", "desc": "En ruinas/locaciones: check INT + tabla de scavenging."},
+          {"name": "Rumors", "desc": "Necesitas 10 Rumors para acceder a una Incursion. Se obtienen de supervivientes (check PRE)."},
+          {"name": "Incursion", "desc": "Grid 3×3 de locaciones únicas (100 POIs). Alto riesgo, alta recompensa."},
+          {"name": "Zonas corruptas", "desc": "Áreas especiales con trials. Pueden dañar severamente al grupo."}
+        ]
+      },
+      {
+        "id": "settlement",
+        "title": "Asentamiento",
+        "icon": "🏘️",
+        "items": [
+          {"name": "Ciclo base", "desc": "Explorar (1 mes = 4 turnos/día) → Volver → Settlement Phase (upkeep + construcción)."},
+          {"name": "Población", "desc": "Empieza en 5. Crece/decrece según Discontent vs Renown."},
+          {"name": "Discontent vs Renown", "desc": "Balance que determina si la población crece o huye. Eventos los modifican."},
+          {"name": "Edificios", "desc": "Proveen efectos específicos. Se pueden perder si no se paga upkeep."},
+          {"name": "Tiers", "desc": "Farmstead → Village → Town. Determinado por población y edificios."},
+          {"name": "Upkeep", "desc": "Raciones necesarias para mantener al asentamiento. Más grande = más caro."}
+        ]
+      },
+      {
+        "id": "usage_dice",
+        "title": "Dados de Uso",
+        "icon": "🎲",
+        "items": [
+          {"name": "Mecánica", "desc": "Recursos se trackean con dados: d12→d10→d8→d6→d4."},
+          {"name": "Usar recurso", "desc": "Tira el dado actual. Si sale 1-2: el dado baja un paso (d12→d10, etc)."},
+          {"name": "Agotamiento", "desc": "Si estás en d4 y sacas 1-2: el recurso se agota completamente."},
+          {"name": "Recursos típicos", "desc": "Raciones, munición, antorchas, suministros médicos, materiales de construcción."}
+        ]
+      }
+    ]
+  }
+}

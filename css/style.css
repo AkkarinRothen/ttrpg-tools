@@ -725,3 +725,338 @@ body.compact-mode #compact-view { display: grid !important; }
   .dice-quick { grid-template-columns: repeat(3, 1fr); }
   .dice-btn.d20 { grid-column: span 1; }
 }
+
+/* ============================================
+   CHOIR OF FLESH
+   ============================================ */
+:root {
+  --cof-accent: #c41e3a;
+  --cof-accent2: #8b0000;
+  --cof-flesh: #6b2d2d;
+  --cof-choir: #8b6914;
+}
+
+/* CoF Nav Button */
+.cof-nav { color: var(--cof-accent) !important; }
+.cof-nav.active { background: var(--cof-accent) !important; color: #fff !important; }
+
+/* CoF Tool Card */
+.cof-card {
+  border-color: rgba(196, 30, 58, 0.4) !important;
+  background: linear-gradient(135deg, rgba(139, 0, 0, 0.15), var(--bg3)) !important;
+}
+.cof-card:hover { border-color: var(--cof-accent) !important; }
+
+/* CoF Section Header */
+.cof-head h2 { color: var(--cof-accent); }
+
+/* CoF Tabs */
+.cof-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 16px;
+  margin-bottom: 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.cof-tabs::-webkit-scrollbar { display: none; }
+.cof-tab-btn {
+  padding: 8px 16px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px 8px 0 0;
+  color: var(--text2);
+  cursor: pointer;
+  font-size: 0.82em;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.cof-tab-btn:hover { color: var(--text); background: var(--bg4); }
+.cof-tab-btn.active {
+  background: var(--cof-accent);
+  color: #fff;
+  border-color: var(--cof-accent);
+}
+.cof-tab-content { padding: 0 16px 16px; }
+
+/* CoF Panel */
+.cof-panel { margin-bottom: 12px; }
+
+/* CoF Character Grid */
+.cof-char-grid {
+  display: grid;
+  gap: 12px;
+}
+
+/* CoF Fields */
+.cof-field-row { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.cof-field { flex: 1; min-width: 120px; }
+.cof-field label { display: block; font-size: 0.72em; color: var(--text3); margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+.cof-field input { width: 100%; padding: 6px 8px; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; color: var(--text); font-size: 0.85em; }
+
+/* CoF Stats Grid */
+.cof-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.cof-stat {
+  text-align: center;
+  padding: 8px 4px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.cof-stat:hover { border-color: var(--cof-accent); }
+.cof-stat label { display: block; font-size: 0.68em; color: var(--cof-accent); font-weight: 700; letter-spacing: 1px; margin-bottom: 4px; cursor: pointer; }
+.cof-stat input {
+  width: 100%;
+  text-align: center;
+  padding: 4px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-size: 1.1em;
+  font-weight: 700;
+}
+.cof-stat input:focus { outline: 1px solid var(--cof-accent); border-radius: 4px; }
+
+.cof-derived {
+  display: flex;
+  justify-content: space-around;
+  padding: 6px;
+  background: var(--bg2);
+  border-radius: 6px;
+  font-size: 0.78em;
+  color: var(--text2);
+}
+.cof-derived span { padding: 2px 8px; }
+
+/* CoF Humanity Bar */
+.cof-tracker { margin-bottom: 4px; }
+.cof-tracker > label { font-size: 0.78em; color: var(--text2); display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+.cof-hum-bar-wrap { display: flex; align-items: center; gap: 8px; }
+.cof-hum-bar {
+  flex: 1;
+  height: 20px;
+  background: var(--bg);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.cof-hum-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--cof-accent), #4ade80);
+  border-radius: 10px;
+  transition: width 0.3s, background 0.3s;
+}
+.cof-hum-fill.low { background: linear-gradient(90deg, var(--cof-accent), #fbbf24); }
+.cof-hum-fill.critical { background: var(--cof-accent); animation: pulse-red 1s infinite; }
+.cof-hum-fill.dead { background: #333; width: 0 !important; }
+.cof-hum-val { font-weight: 700; font-size: 1em; min-width: 40px; text-align: center; }
+
+@keyframes pulse-red { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+.cof-tracker-btns { display: flex; gap: 4px; margin-top: 4px; }
+.cof-anguish-display { display: flex; align-items: center; gap: 12px; }
+.cof-anguish-num { font-size: 1.6em; font-weight: 700; color: var(--cof-accent); min-width: 40px; text-align: center; }
+
+/* CoF Injury Pips */
+.cof-pip-row { display: flex; gap: 4px; margin: 4px 0; }
+.cof-pip {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.cof-pip:hover { border-color: var(--text2); }
+.cof-pip.filled { background: var(--cof-accent); border-color: var(--cof-accent); }
+.cof-pip.major { border-radius: 4px; }
+.cof-pip.major.filled { background: #8b0000; border-color: #8b0000; }
+.cof-pip.dead { animation: pulse-red 0.8s infinite; }
+
+.cof-death-alert {
+  background: rgba(139, 0, 0, 0.3);
+  border: 1px solid var(--cof-accent);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  color: var(--cof-accent);
+  font-weight: 700;
+  font-size: 1.1em;
+  margin-top: 8px;
+  animation: pulse-red 1s infinite;
+}
+
+.cof-postcombat { display: flex; align-items: center; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+.cof-postcombat > span { font-size: 0.8em; color: var(--text2); }
+
+/* CoF Usage Dice */
+.cof-usage-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  background: var(--bg);
+  border-radius: 6px;
+  margin-bottom: 4px;
+  border: 1px solid var(--border);
+}
+.cof-usage-item.exhausted { opacity: 0.4; text-decoration: line-through; }
+.cof-usage-name { flex: 1; font-size: 0.85em; }
+.cof-usage-die { font-weight: 700; color: var(--cof-accent); font-size: 1em; min-width: 30px; text-align: center; }
+
+/* CoF Combat Grid */
+.cof-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  max-width: 400px;
+  margin: 12px auto;
+  background: var(--border);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.cof-cell {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--bg2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-direction: column;
+  gap: 2px;
+}
+.cof-cell:hover { background: var(--bg4); }
+.cof-cell.selected { background: rgba(196, 30, 58, 0.3); outline: 2px solid var(--cof-accent); }
+.cof-cell.has-terrain { background: var(--bg3); }
+.cof-coord { position: absolute; bottom: 1px; right: 3px; font-size: 0.55em; color: var(--text3); }
+.cof-terrain { font-size: 1.1em; }
+.cof-token { font-size: 1.3em; }
+.cof-token.player { filter: drop-shadow(0 0 3px #4a9eff); }
+.cof-token.ally { filter: drop-shadow(0 0 3px #4ade80); }
+.cof-token.enemy { filter: drop-shadow(0 0 3px var(--cof-accent)); }
+
+.cof-grid-controls { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+
+/* CoF Travel */
+.cof-travel-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.cof-travel-stat {
+  text-align: center;
+  padding: 10px 6px;
+  background: var(--bg);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.cof-travel-stat .label { display: block; font-size: 0.7em; color: var(--text3); text-transform: uppercase; letter-spacing: 0.5px; }
+.cof-travel-stat .value { display: block; font-size: 1.4em; font-weight: 700; color: var(--text); }
+.cof-travel-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* CoF Prayer Buttons */
+.cof-prayer-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+.cof-prayer-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+  color: var(--text);
+}
+.cof-prayer-btn:hover { border-color: var(--cof-choir); background: var(--bg3); }
+.cof-prayer-btn strong { color: var(--cof-choir); font-size: 1em; }
+.cof-prayer-btn span { font-size: 0.78em; color: var(--text2); margin: 4px 0; }
+.cof-prayer-btn small { font-size: 0.7em; color: var(--text3); }
+.cof-prayer-btn.major { border-color: rgba(139, 105, 20, 0.4); }
+.cof-prayer-btn.apocalyptic { border-color: rgba(196, 30, 58, 0.4); background: rgba(139, 0, 0, 0.1); }
+.cof-prayer-btn.apocalyptic strong { color: var(--cof-accent); }
+
+/* CoF Ascension Effect */
+.cof-ascension {
+  background: rgba(196, 30, 58, 0.2);
+  border: 2px solid var(--cof-accent);
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--cof-accent);
+  font-size: 1.1em;
+  margin-top: 8px;
+  animation: pulse-red 0.8s infinite;
+}
+
+/* CoF Mutation */
+.cof-mutation {
+  background: rgba(107, 45, 45, 0.3);
+  border: 1px solid var(--cof-flesh);
+  padding: 10px;
+  border-radius: 8px;
+  margin: 8px 0;
+}
+
+/* CoF Result */
+.cof-result {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-top: 12px;
+  font-size: 0.9em;
+  line-height: 1.5;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+}
+.cof-result.success { border-color: rgba(74, 222, 128, 0.3); background: rgba(74, 222, 128, 0.05); }
+.cof-result.critical { border-color: rgba(196, 30, 58, 0.5); background: rgba(139, 0, 0, 0.1); }
+.cof-result.info { border-color: rgba(74, 158, 255, 0.3); background: rgba(74, 158, 255, 0.05); }
+
+/* CoF Reference */
+.cof-ref-section { margin-bottom: 6px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.cof-ref-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: var(--bg3);
+  cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.cof-ref-header:hover { background: var(--bg4); }
+.cof-ref-arrow { color: var(--text3); transition: transform 0.2s; }
+.cof-ref-body { padding: 0 14px; background: var(--bg2); }
+.cof-ref-item {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.82em;
+  line-height: 1.4;
+}
+.cof-ref-item:last-child { border-bottom: none; }
+.cof-ref-item strong { color: var(--cof-accent); display: block; margin-bottom: 2px; }
+.cof-ref-item span { color: var(--text2); }
+
+/* CoF Responsive */
+@media (min-width: 768px) {
+  .cof-char-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .cof-stats-grid { grid-template-columns: repeat(3, 1fr); }
+  .cof-travel-stats { grid-template-columns: repeat(2, 1fr); }
+  .cof-prayer-grid { grid-template-columns: 1fr; }
+}
