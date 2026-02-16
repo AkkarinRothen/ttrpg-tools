@@ -1,0 +1,57 @@
+{
+  "likelihood": {
+    "certain":    { "label": "Seguro",     "threshold": 90 },
+    "likely":     { "label": "Probable",   "threshold": 75 },
+    "5050":       { "label": "50/50",      "threshold": 50 },
+    "unlikely":   { "label": "Improbable", "threshold": 25 },
+    "impossible": { "label": "Imposible",  "threshold": 10 }
+  },
+  "eventFocus": [
+    "Asunto lejano", "Accion del PJ", "Introduce un PNJ nuevo",
+    "Accion ambigua", "Avanza un hilo", "Cierra un hilo",
+    "Accion de PNJ", "Reveal del PNJ", "Giro argumental",
+    "Evento del entorno"
+  ],
+  "actionWords": [
+    "Atacar", "Buscar", "Crear", "Destruir", "Engañar", "Explorar",
+    "Huir", "Investigar", "Manipular", "Negociar", "Observar", "Perseguir",
+    "Proteger", "Revelar", "Robar", "Sacrificar", "Traicionar", "Transformar",
+    "Abandonar", "Comunicar", "Desafiar", "Esconder", "Guiar", "Liberar",
+    "Mover", "Ofrecer", "Planear", "Reclamar", "Separar", "Vigilar",
+    "Activar", "Bloquear", "Controlar", "Debilitar", "Escapar", "Fortalecer",
+    "Herir", "Ignorar", "Juzgar", "Liderar", "Malinterpretar", "Negar",
+    "Oponer", "Persuadir", "Rechazar", "Someterse", "Temer", "Unir",
+    "Vengar", "Arruinar", "Celebrar", "Detener", "Embrujar", "Fingir",
+    "Gobernar", "Intoxicar", "Jurar", "Llorar", "Maldecir", "Olvidar",
+    "Perdonar", "Quemar", "Rescatar", "Silenciar", "Torturar", "Usurpar",
+    "Vaciar", "Advertir", "Bendecir", "Convocar", "Desafiar", "Enterrar",
+    "Fracasar", "Gritar", "Invocar", "Jugar", "Lamentar", "Meditar",
+    "Navegar", "Obedecer", "Pacificar", "Renunciar", "Suplicar", "Tramar",
+    "Unificar", "Viajar", "Acechar", "Construir", "Dominar", "Exiliar",
+    "Forzar", "Honrar", "Impedir", "Lanzar", "Marchar", "Ocultar",
+    "Purificar", "Resistir", "Sentenciar", "Triunfar", "Conspirar", "Despertar"
+  ],
+  "subjectWords": [
+    "Poder", "Secreto", "Tesoro", "Enemigo", "Aliado", "Trampa",
+    "Magia", "Conocimiento", "Fe", "Naturaleza", "Civilizacion", "Caos",
+    "Orden", "Guerra", "Paz", "Muerte", "Vida", "Amor",
+    "Odio", "Verdad", "Mentira", "Honor", "Vergüenza", "Libertad",
+    "Prision", "Viaje", "Hogar", "Extranjero", "Lider", "Seguidor",
+    "Arma", "Escudo", "Portal", "Barrera", "Mensaje", "Profecia",
+    "Maldicion", "Bendicion", "Criatura", "Espiritu", "Monstruo", "Guardian",
+    "Ladron", "Asesino", "Sanador", "Sabio", "Tonto", "Rey",
+    "Campesino", "Soldado", "Hechicero", "Clerigo", "Ranger", "Bardo",
+    "Ruinas", "Templo", "Fortaleza", "Cueva", "Bosque", "Montaña",
+    "Rio", "Mar", "Desierto", "Ciudad", "Aldea", "Mercado",
+    "Taberna", "Mazmorra", "Torre", "Puente", "Camino", "Frontera",
+    "Sombra", "Luz", "Fuego", "Hielo", "Tormenta", "Niebla",
+    "Veneno", "Cura", "Reliquia", "Artefacto", "Pergamino", "Llave",
+    "Puerta", "Trono", "Corona", "Cadena", "Sangre", "Hueso",
+    "Piedra", "Metal", "Cristal", "Madera", "Tela", "Oro",
+    "Plata", "Gema", "Pocion", "Libro"
+  ],
+  "sceneAdjust": [
+    "Escena alterada: algo es diferente a lo esperado",
+    "Escena interrumpida: un evento inesperado ocurre antes de que comience"
+  ]
+}

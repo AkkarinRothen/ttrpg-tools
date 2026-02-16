@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TTRPG Tools — Herramientas de Mesa</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <h1>TTRPG Tools <span>Herramientas de Mesa</span></h1>
+  <nav class="site-nav" id="siteNav">
+    <button class="nav-btn active" onclick="showHome()">Inicio</button>
+    <button class="nav-btn" onclick="showSection('dice')">Dados</button>
+    <button class="nav-btn" onclick="showSection('oracle')">Oraculo</button>
+    <button class="nav-btn" onclick="showSection('tables')">Tablas</button>
+    <button class="nav-btn" onclick="showSection('initiative')">Iniciativa</button>
+    <button class="nav-btn" onclick="showSection('encounter')">Encuentros</button>
+    <button class="nav-btn" onclick="showSection('npc')">NPCs</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ====== HOME ====== -->
+<div id="home">
+  <div class="tools-grid">
+    <div class="tool-card tc-red" onclick="showSection('dice')">
+      <span class="tc-icon">&#x1F3B2;</span>
+      <div class="tc-info"><h3>Tirador de Dados</h3><p>d4 a d100, ventaja/desventaja, formulas custom e historial</p></div>
+    </div>
+    <div class="tool-card tc-purple" onclick="showSection('oracle')">
+      <span class="tc-icon">&#x1F52E;</span>
+      <div class="tc-info"><h3>Oraculo Solo RPG</h3><p>Preguntas Si/No, eventos aleatorios, factor de caos y significado</p></div>
+    </div>
+    <div class="tool-card tc-gold" onclick="showSection('tables')">
+      <span class="tc-icon">&#x1F4DC;</span>
+      <div class="tc-info"><h3>Tablas Aleatorias</h3><p>Clima, encuentros, tesoro, trampas, mazmorras y mas</p></div>
+    </div>
+    <div class="tool-card tc-green" onclick="showSection('initiative')">
+      <span class="tc-icon">&#x2694;&#xFE0F;</span>
+      <div class="tc-info"><h3>Tracker de Iniciativa</h3><p>Orden de combate, condiciones, HP y contador de rondas</p></div>
+    </div>
+    <div class="tool-card tc-blue" onclick="showSection('encounter')">
+      <span class="tc-icon">&#x1F409;</span>
+      <div class="tc-info"><h3>Constructor de Encuentros</h3><p>Presupuestos XP del 2024 DMG con monstruos SRD filtrados por CR</p></div>
+    </div>
+    <div class="tool-card tc-cyan" onclick="showSection('npc')">
+      <span class="tc-icon">&#x1F464;</span>
+      <div class="tc-info"><h3>Generador de NPCs</h3><p>Nombre, stats, personalidad, apariencia, vinculo y motivacion</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== DICE ROLLER ====== -->
+<div class="tool-section" id="sec-dice">
+  <div class="section-head">
+    <span class="sh-icon">&#x1F3B2;</span>
+    <h2>Tirador de Dados</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="panel">
+    <div class="dice-quick">
+      <button class="dice-btn" onclick="Dice.roll('1d4')">d4</button>
+      <button class="dice-btn" onclick="Dice.roll('1d6')">d6</button>
+      <button class="dice-btn" onclick="Dice.roll('1d8')">d8</button>
+      <button class="dice-btn" onclick="Dice.roll('1d10')">d10</button>
+      <button class="dice-btn" onclick="Dice.roll('1d12')">d12</button>
+      <button class="dice-btn d20" onclick="Dice.roll('1d20')">d20</button>
+      <button class="dice-btn" onclick="Dice.roll('1d100')">d100</button>
+    </div>
+    <div class="dice-adv">
+      <button onclick="Dice.rollAdv(true)">Ventaja (2d20&#x2191;)</button>
+      <button onclick="Dice.rollAdv(false)">Desventaja (2d20&#x2193;)</button>
+    </div>
+    <div class="input-row">
+      <input type="text" id="diceInput" placeholder="Ej: 2d6+3, 4d8-2" onkeypress="if(event.key==='Enter')Dice.rollCustom()" style="flex:1">
+      <button class="btn btn-primary" onclick="Dice.rollCustom()">Tirar</button>
+    </div>
+    <div class="dice-result" id="diceRes">
+      <div class="dice-val" id="diceVal">--</div>
+      <div class="dice-formula" id="diceForm">Listo para tirar</div>
+      <div class="dice-breakdown" id="diceBD"></div>
+    </div>
+    <div class="dice-hist-head"><span>Historial</span><button class="btn btn-small btn-secondary" onclick="Dice.clearHist()">Limpiar</button></div>
+    <div class="dice-hist" id="diceHist"><div class="dice-hist-empty">No hay tiradas</div></div>
+  </div>
+</div>
+
+<!-- ====== ORACLE ====== -->
+<div class="tool-section" id="sec-oracle">
+  <div class="section-head">
+    <span class="sh-icon">&#x1F52E;</span>
+    <h2>Oraculo Solo RPG</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h3>Pregunta Si/No</h3></div>
+    <div class="chaos-meter">
+      <label>Caos:</label>
+      <div class="chaos-bar">
+        <div class="chaos-pip" onclick="Oracle.setChaos(1)"></div>
+        <div class="chaos-pip" onclick="Oracle.setChaos(2)"></div>
+        <div class="chaos-pip" onclick="Oracle.setChaos(3)"></div>
+        <div class="chaos-pip" onclick="Oracle.setChaos(4)"></div>
+        <div class="chaos-pip" onclick="Oracle.setChaos(5)"></div>
+        <div class="chaos-pip" onclick="Oracle.setChaos(6)"></div>
+        <div class="chaos-pip" onclick="Oracle.setChaos(7)"></div>
+        <div class="chaos-pip" onclick="Oracle.setChaos(8)"></div>
+        <div class="chaos-pip" onclick="Oracle.setChaos(9)"></div>
+      </div>
+      <span class="chaos-val" id="chaosVal">5</span>
+    </div>
+    <div class="oracle-likelihood" id="oracleLikelihood"></div>
+    <div class="input-row" style="justify-content:center;gap:8px">
+      <button class="btn btn-primary" onclick="Oracle.ask()" style="flex:none;padding:10px 24px;font-size:0.95em">&#x1F52E; Preguntar al Oraculo</button>
+      <button class="btn btn-secondary" onclick="Oracle.sceneCheck()" title="Verificar escena">&#x1F3AC; Escena</button>
+    </div>
+    <div class="oracle-result" id="oracleResult">
+      <div class="oracle-answer" id="oracleAnswer">Haz una pregunta</div>
+      <div class="oracle-event" id="oracleEvent" style="display:none"></div>
+      <div class="oracle-detail" id="oracleDetail"></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h3>Significado Aleatorio</h3></div>
+    <button class="btn btn-gold" onclick="Oracle.rollMeaning()">&#x2728; Generar Significado</button>
+    <div class="meaning-result" id="meaningResult" style="margin-top:12px">
+      <div class="meaning-words" id="meaningWords">Accion + Sujeto</div>
+      <div class="meaning-label">Accion + Sujeto</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== RANDOM TABLES ====== -->
+<div class="tool-section" id="sec-tables">
+  <div class="section-head">
+    <span class="sh-icon">&#x1F4DC;</span>
+    <h2>Tablas Aleatorias</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="table-result" id="tableResult" style="display:none">
+    <div class="table-result-val" id="tableResultVal"></div>
+    <div class="table-result-src" id="tableResultSrc"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head">
+      <h3>Tablas Disponibles</h3>
+      <button class="btn btn-small btn-secondary" onclick="Tables.showCustomForm()">+ Custom</button>
+    </div>
+    <div class="table-list" id="tableList"></div>
+  </div>
+  <div class="panel" id="customTableForm" style="display:none">
+    <div class="panel-head"><h3>Nueva Tabla Custom</h3></div>
+    <div class="input-row"><input type="text" id="ctName" placeholder="Nombre de la tabla" style="flex:1"></div>
+    <div class="input-row"><input type="text" id="ctIcon" placeholder="Emoji (ej: &#x1F3B2;)" style="width:80px"><input type="text" id="ctDesc" placeholder="Descripcion" style="flex:1"></div>
+    <div style="margin-bottom:10px">
+      <label style="font-size:0.78em;color:var(--text2)">Entradas (una por linea):</label>
+      <textarea id="ctEntries" rows="6" style="width:100%;padding:8px;background:var(--bg);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:inherit;resize:vertical"></textarea>
+    </div>
+    <div class="input-row"><button class="btn btn-primary" onclick="Tables.saveCustom()">Guardar</button><button class="btn btn-secondary" onclick="Tables.hideCustomForm()">Cancelar</button></div>
+  </div>
+</div>
+
+<!-- ====== INITIATIVE ====== -->
+<div class="tool-section" id="sec-initiative">
+  <div class="section-head">
+    <span class="sh-icon">&#x2694;&#xFE0F;</span>
+    <h2>Tracker de Iniciativa</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="panel">
+    <div class="input-row">
+      <input type="text" id="initName" placeholder="Nombre" style="flex:1" onkeypress="if(event.key==='Enter')Initiative.add()">
+      <input type="number" id="initBonus" placeholder="Bonus" style="width:80px">
+      <input type="text" id="initHP" placeholder="HP" style="width:70px">
+      <button class="btn btn-primary" onclick="Initiative.add()">Agregar</button>
+    </div>
+    <div class="init-controls">
+      <button class="btn btn-primary" onclick="Initiative.nextTurn()">&#x25B6; Siguiente</button>
+      <button class="btn btn-secondary" onclick="Initiative.prevTurn()">&#x25C0; Anterior</button>
+      <button class="btn btn-secondary" onclick="Initiative.reroll()">&#x1F504; Re-tirar</button>
+      <button class="btn btn-danger" onclick="if(confirm('Limpiar todo?'))Initiative.reset()">&#x1F5D1; Limpiar</button>
+      <div class="round-display" id="roundDisplay">Sin iniciar</div>
+    </div>
+  </div>
+  <div class="init-list" id="initList"></div>
+</div>
+
+<!-- ====== ENCOUNTER BUILDER ====== -->
+<div class="tool-section" id="sec-encounter">
+  <div class="section-head">
+    <span class="sh-icon">&#x1F409;</span>
+    <h2>Constructor de Encuentros</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="panel">
+    <div class="enc-params">
+      <div class="enc-field">
+        <label>Nivel del Party</label>
+        <input type="number" id="partyLevel" value="3" min="1" max="20" onchange="Encounter.updateBudget()">
+      </div>
+      <div class="enc-field">
+        <label>Jugadores</label>
+        <input type="number" id="partySize" value="4" min="1" max="10" onchange="Encounter.updateBudget()">
+      </div>
+      <button class="btn btn-danger btn-small" onclick="Encounter.clearSelected()" style="align-self:flex-end">Limpiar</button>
+    </div>
+    <div class="enc-budget">
+      <div class="enc-budget-item"><span class="label">Baja</span><span class="value low" id="budgetLow">600</span></div>
+      <div class="enc-budget-item"><span class="label">Moderada</span><span class="value moderate" id="budgetMod">900</span></div>
+      <div class="enc-budget-item"><span class="label">Alta</span><span class="value high" id="budgetHigh">1600</span></div>
+    </div>
+    <div class="enc-total">
+      <span>Total XP: <span class="total-xp" id="encTotalXP">0 XP</span></span>
+      <span class="enc-diff" id="encDifficulty">Trivial</span>
+    </div>
+  </div>
+  <div class="panel enc-selected">
+    <div class="panel-head"><h3>Monstruos Seleccionados</h3></div>
+    <div id="selectedMonsters"><div style="color:var(--text3);font-size:0.85em;text-align:center;padding:10px">Click en un monstruo para añadirlo</div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-head"><h3>Monstruos SRD</h3></div>
+    <div class="input-row">
+      <input type="text" id="monsterSearch" placeholder="Buscar por nombre, tipo o CR..." style="flex:1" oninput="Encounter.filterMonsters()">
+    </div>
+    <div class="enc-monsters" id="monsterList"></div>
+  </div>
+</div>
+
+<!-- ====== NPC GENERATOR ====== -->
+<div class="tool-section" id="sec-npc">
+  <div class="section-head">
+    <span class="sh-icon">&#x1F464;</span>
+    <h2>Generador de NPCs</h2>
+    <button class="back-btn" onclick="showHome()">&#x2190; Inicio</button>
+  </div>
+  <div class="panel">
+    <div class="input-row">
+      <select id="npcRace">
+        <option value="random">Raza: Aleatorio</option>
+        <option value="human">Humano</option>
+        <option value="elf">Elfo</option>
+        <option value="dwarf">Enano</option>
+        <option value="halfling">Halfling</option>
+      </select>
+      <select id="npcGender">
+        <option value="random">Genero: Aleatorio</option>
+        <option value="male">Masculino</option>
+        <option value="female">Femenino</option>
+      </select>
+      <button class="btn btn-primary" onclick="NPC.generate()">&#x1F3B2; Generar NPC</button>
+    </div>
+  </div>
+  <div class="npc-card" id="npcCard" style="display:none"></div>
+</div>
+
+</main>
+
+<footer class="site-footer">
+  TTRPG Tools &mdash; Herramientas para D&D 5.5 (2024) y Solo RPG &mdash;
+  <a href="https://github.com/AkkarinRothen/ttrpg-tools" target="_blank">GitHub</a>
+</footer>
+
+<script src="js/dice.js"></script>
+<script src="js/oracle.js"></script>
+<script src="js/tables.js"></script>
+<script src="js/initiative.js"></script>
+<script src="js/encounter.js"></script>
+<script src="js/npc.js"></script>
+<script>
+// === NAVIGATION ===
+const sections = ['dice','oracle','tables','initiative','encounter','npc'];
+let initialized = {};
+
+function showHome() {
+  document.getElementById('home').style.display = 'block';
+  sections.forEach(s => document.getElementById('sec-'+s).classList.remove('active'));
+  updateNav(null);
+  history.replaceState(null, '', location.pathname);
+}
+
+function showSection(name) {
+  document.getElementById('home').style.display = 'none';
+  sections.forEach(s => {
+    const el = document.getElementById('sec-'+s);
+    if (s === name) el.classList.add('active');
+    else el.classList.remove('active');
+  });
+  updateNav(name);
+  // Lazy init
+  if (!initialized[name]) {
+    initialized[name] = true;
+    if (name === 'dice') Dice.init();
+    if (name === 'oracle') Oracle.init();
+    if (name === 'tables') Tables.init();
+    if (name === 'initiative') Initiative.init();
+    if (name === 'encounter') Encounter.init();
+    if (name === 'npc') NPC.init();
+  }
+  history.replaceState(null, '', '#' + name);
+}
+
+function updateNav(active) {
+  document.querySelectorAll('.site-nav .nav-btn').forEach(btn => {
+    const isHome = btn.textContent === 'Inicio';
+    const target = btn.getAttribute('onclick')?.match(/showSection\('(\w+)'\)/)?.[1];
+    btn.classList.toggle('active', active ? target === active : isHome);
+  });
+}
+
+// Handle hash on load
+window.addEventListener('DOMContentLoaded', () => {
+  const hash = location.hash.replace('#','');
+  if (sections.includes(hash)) showSection(hash);
+});
+
+// Keyboard shortcut: press number keys 1-6 to navigate
+document.addEventListener('keydown', e => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+  const idx = parseInt(e.key);
+  if (idx >= 1 && idx <= 6) showSection(sections[idx-1]);
+  if (e.key === 'Escape' || e.key === '0') showHome();
+});
+</script>
+</body>
+</html>
